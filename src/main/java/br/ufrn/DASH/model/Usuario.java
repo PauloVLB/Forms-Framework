@@ -33,5 +33,5 @@ public class Usuario implements GenericEntity{
     private TipoUsuario tipoUsuario;
 
     @OneToMany(mappedBy = "usuario")
-    private List<Prontuario> prontuarios = new ArrayList<Prontuario>();
+    private List<Formulario> formularios = new ArrayList<Formulario>();
 }

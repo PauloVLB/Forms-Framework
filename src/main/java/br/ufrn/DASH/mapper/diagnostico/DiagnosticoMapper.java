@@ -15,19 +15,19 @@ import static br.ufrn.DASH.model.interfaces.GenericEntityToId.TToIds;
 public interface DiagnosticoMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "opcoesMarcadas", ignore = true)
-    @Mapping(target = "prontuario", ignore = true)
+    @Mapping(target = "formulario", ignore = true)
     @Mapping(target = "descricao")
     Diagnostico toDiagnosticoFromCreate(DiagnosticoCreate diagnosticoCreate);
     
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "opcoesMarcadas", ignore = true)
-    @Mapping(target = "prontuario", ignore = true)
+    @Mapping(target = "formulario", ignore = true)
     @Mapping(target = "descricao")
     Diagnostico toDiagnosticoFromUpdate(DiagnosticoUpdate diagnosticoUpdate);
     
     @Mapping(target = "id")
     @Mapping(target = "descricao")
-    @Mapping(target = "prontuarioId", source = "prontuario.id")
+    @Mapping(target = "formularioId", source = "formulario.id")
     @Mapping(target = "opcoesMarcadasIds", source = "opcoesMarcadas", qualifiedByName = "opcoesToIds")
     DiagnosticoOutput toDiagnosticoOutput(Diagnostico diagnostico);
 

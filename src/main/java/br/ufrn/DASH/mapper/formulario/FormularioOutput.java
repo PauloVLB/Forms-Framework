@@ -1,10 +1,8 @@
-package br.ufrn.DASH.mapper.prontuario;
+package br.ufrn.DASH.mapper.formulario;
 
 import java.util.List;
 
-import br.ufrn.DASH.mapper.secao.SecaoCompleteOutput;
-
-public record ProntuarioCompleteOutput(
+public record FormularioOutput(
     Long id,    
     String nome, 
     String descricao, 
@@ -12,7 +10,8 @@ public record ProntuarioCompleteOutput(
     Boolean ehPublico,
     Boolean ehTemplate,
     Long usuarioId,
-    List<SecaoCompleteOutput> secoes,
+    List<Long> secoesIds,
+    List<Long> diagnosticosIds,
     String diagnosticoLLM
     )
 {}

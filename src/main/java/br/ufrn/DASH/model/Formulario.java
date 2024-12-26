@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Prontuario implements GenericEntity{
+public class Formulario implements GenericEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +40,10 @@ public class Prontuario implements GenericEntity{
     @ManyToOne
     private Usuario usuario;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prontuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
     private List<Secao> secoes = new ArrayList<Secao>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prontuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
     private List<Diagnostico> diagnosticos = new ArrayList<Diagnostico>();
     public List<Secao> getSecoes() {
         ItemUtils.ordenar(secoes);

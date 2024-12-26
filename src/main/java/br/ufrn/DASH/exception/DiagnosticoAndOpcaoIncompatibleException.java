@@ -15,6 +15,6 @@ public class DiagnosticoAndOpcaoIncompatibleException extends DashException{
     
     @Override
     public String getMessage() {
-        return "Opcao com id " + idOpcao + " nao se encontra no mesmo prontuario que o Diagnostico com id " + idDiagnostico + ".";
+        return "Opcao com id " + idOpcao + " nao se encontra no mesmo formulario que o Diagnostico com id " + idDiagnostico + ".";
     }
 }

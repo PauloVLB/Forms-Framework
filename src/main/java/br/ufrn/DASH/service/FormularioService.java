@@ -10,16 +10,16 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufrn.DASH.exception.DiagnosticoNotInProntuarioException;
+import br.ufrn.DASH.exception.DiagnosticoNotInFormularioException;
 import br.ufrn.DASH.exception.EntityNotFoundException;
-import br.ufrn.DASH.exception.ProntuarioInconsistenteException;
-import br.ufrn.DASH.exception.ProntuarioNotTemplateException;
-import br.ufrn.DASH.exception.ProntuarioTemplateException;
-import br.ufrn.DASH.exception.QuesitoNotInProntuarioException;
+import br.ufrn.DASH.exception.FormularioInconsistenteException;
+import br.ufrn.DASH.exception.FormularioNotTemplateException;
+import br.ufrn.DASH.exception.FormularioTemplateException;
+import br.ufrn.DASH.exception.QuesitoNotInFormularioException;
 import br.ufrn.DASH.mapper.llm.LLMResponse;
 import br.ufrn.DASH.model.Diagnostico;
 import br.ufrn.DASH.model.Opcao;
-import br.ufrn.DASH.model.Prontuario;
+import br.ufrn.DASH.model.Formulario;
 import br.ufrn.DASH.model.Quesito;
 import br.ufrn.DASH.model.Resposta;
 import br.ufrn.DASH.model.Secao;
@@ -27,15 +27,15 @@ import br.ufrn.DASH.model.Usuario;
 import br.ufrn.DASH.model.interfaces.Item;
 
 import static br.ufrn.DASH.model.interfaces.GenericEntitySortById.sortById;
-import br.ufrn.DASH.repository.ProntuarioRepository;
+import br.ufrn.DASH.repository.FormularioRepository;
 import br.ufrn.DASH.utils.Pair;
 import jakarta.transaction.Transactional;
 
 @Service
-public class ProntuarioService {
+public class FormularioService {
 
     @Autowired
-    private ProntuarioRepository prontuarioRepository;
+    private FormularioRepository formularioRepository;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -59,31 +59,31 @@ public class ProntuarioService {
     private DiagnosticoService diagnosticoService;
 
     @Transactional
-    public Prontuario create(Prontuario prontuario) {
-        return prontuarioRepository.save(prontuario);
+    public Formulario create(Formulario formulario) {
+        return formularioRepository.save(formulario);
     }
 
-    public List<Prontuario> getAll() {
-        return prontuarioRepository.findAll();
+    public List<Formulario> getAll() {
+        return formularioRepository.findAll();
     }
 
-    public Prontuario getById(Long id) {
-        return prontuarioRepository.findById(id)
+    public Formulario getById(Long id) {
+        return formularioRepository.findById(id)
             .orElseThrow(
-                () -> new EntityNotFoundException(id, new Prontuario())
+                () -> new EntityNotFoundException(id, new Formulario())
             );
     }
 
-    public Prontuario getById(Long id, boolean incluirDesabilitados) {
-        Prontuario prontuario = this.getById(id);
+    public Formulario getById(Long id, boolean incluirDesabilitados) {
+        Formulario formulario = this.getById(id);
 
         if(incluirDesabilitados) {
-           return prontuario;
+           return formulario;
         } else {
-            Prontuario prontuarioSemDesabilitados = prontuario;
-            List<Secao> secoesSemDesabilitados = retirarDesabilitadosSecoes(prontuario.getSecoes());
-            prontuarioSemDesabilitados.setSecoes(secoesSemDesabilitados);
-            return prontuarioSemDesabilitados;
+            Formulario formularioSemDesabilitados = formulario;
+            List<Secao> secoesSemDesabilitados = retirarDesabilitadosSecoes(formulario.getSecoes());
+            formularioSemDesabilitados.setSecoes(secoesSemDesabilitados);
+            return formularioSemDesabilitados;
         }
     }
 
@@ -113,96 +113,96 @@ public class ProntuarioService {
     }
 
     @Transactional
-    public Prontuario update(Long id, Prontuario prontuario) {
+    public Formulario update(Long id, Formulario formulario) {
         
-        Prontuario prontuarioExistente = this.getById(id);
+        Formulario formularioExistente = this.getById(id);
         
-        prontuarioExistente.setNome(prontuario.getNome());
-        prontuarioExistente.setDescricao(prontuario.getDescricao());
-        prontuarioExistente.setEhPublico(prontuario.getEhPublico());
-        prontuarioExistente.setFinalizado(prontuario.getFinalizado());
+        formularioExistente.setNome(formulario.getNome());
+        formularioExistente.setDescricao(formulario.getDescricao());
+        formularioExistente.setEhPublico(formulario.getEhPublico());
+        formularioExistente.setFinalizado(formulario.getFinalizado());
 
-        return prontuarioRepository.save(prontuarioExistente);
+        return formularioRepository.save(formularioExistente);
     }
 
     @Transactional
-    public Prontuario tornarPublico(Long id) {
-        Prontuario prontuario = this.getById(id);
-        prontuario.setEhPublico(true);
-        return prontuarioRepository.save(prontuario);
+    public Formulario tornarPublico(Long id) {
+        Formulario formulario = this.getById(id);
+        formulario.setEhPublico(true);
+        return formularioRepository.save(formulario);
     }
 
     @Transactional
-    public Prontuario tornarPrivado(Long id) {
-        Prontuario prontuario = this.getById(id);
-        prontuario.setEhPublico(false);
-        return prontuarioRepository.save(prontuario);
+    public Formulario tornarPrivado(Long id) {
+        Formulario formulario = this.getById(id);
+        formulario.setEhPublico(false);
+        return formularioRepository.save(formulario);
     }
 
     @Transactional
     public void delete(Long id) {
         this.getById(id);
-        prontuarioRepository.deleteById(id);
+        formularioRepository.deleteById(id);
     }
 
     @Transactional
     public void deleteAll() {
-        prontuarioRepository.deleteAll();
+        formularioRepository.deleteAll();
     }
 
     @Transactional
-    public Secao addSecao(Long idProntuario, Secao secaoNova) {
-        Prontuario prontuario = this.getById(idProntuario);
+    public Secao addSecao(Long idFormulario, Secao secaoNova) {
+        Formulario formulario = this.getById(idFormulario);
         
-        secaoNova.setOrdem(prontuario.getSecoes().size());
+        secaoNova.setOrdem(formulario.getSecoes().size());
         secaoNova.setNivel(1);
-        secaoNova.setProntuario(prontuario);
+        secaoNova.setFormulario(formulario);
 
-        prontuario.getSecoes().add(secaoNova);
+        formulario.getSecoes().add(secaoNova);
 
-        prontuarioRepository.save(prontuario);
+        formularioRepository.save(formulario);
 
-        return prontuario.getSecoes().get(prontuario.getSecoes().size() - 1);
+        return formulario.getSecoes().get(formulario.getSecoes().size() - 1);
     }
 
     @Transactional
-    public Prontuario duplicar(Long idProntuario, Long idUsuario) {
-        Prontuario prontuarioToDuplicate = this.getById(idProntuario);
+    public Formulario duplicar(Long idFormulario, Long idUsuario) {
+        Formulario formularioToDuplicate = this.getById(idFormulario);
 
         Usuario novoUsuario = usuarioService.getById(idUsuario);
 
-        Prontuario prontuarioDuplicado = new Prontuario();
+        Formulario formularioDuplicado = new Formulario();
 
-        prontuarioDuplicado.setNome(prontuarioToDuplicate.getNome() + " - Cópia");
-        prontuarioDuplicado.setDescricao(prontuarioToDuplicate.getDescricao());
-        prontuarioDuplicado.setEhPublico(prontuarioToDuplicate.getEhPublico());
-        prontuarioDuplicado.setEhTemplate(prontuarioToDuplicate.getEhTemplate());
-        prontuarioDuplicado.setUsuario(novoUsuario);
+        formularioDuplicado.setNome(formularioToDuplicate.getNome() + " - Cópia");
+        formularioDuplicado.setDescricao(formularioToDuplicate.getDescricao());
+        formularioDuplicado.setEhPublico(formularioToDuplicate.getEhPublico());
+        formularioDuplicado.setEhTemplate(formularioToDuplicate.getEhTemplate());
+        formularioDuplicado.setUsuario(novoUsuario);
 
         Map<Opcao, Opcao> opcoesDuplicadas = new HashMap<Opcao, Opcao>();
-        for (Secao secao : prontuarioToDuplicate.getSecoes()) {
+        for (Secao secao : formularioToDuplicate.getSecoes()) {
             Pair<Secao, Map<Opcao, Opcao>> pairSecaoMapa = secaoService.duplicar(opcoesDuplicadas, secao);
             Secao novaSecao = pairSecaoMapa.getFirst();
             opcoesDuplicadas = pairSecaoMapa.getSecond();
             
-            novaSecao.setProntuario(prontuarioDuplicado);
-            prontuarioDuplicado.getSecoes().add(novaSecao);
+            novaSecao.setFormulario(formularioDuplicado);
+            formularioDuplicado.getSecoes().add(novaSecao);
         }
 
-        return prontuarioRepository.save(prontuarioDuplicado);
+        return formularioRepository.save(formularioDuplicado);
     }
     
     @Transactional
-    public Resposta addResposta(Long idProntuario, Long idQuesito, Resposta respostaNova) {
-        Prontuario prontuario = this.getById(idProntuario);
-        if(prontuario.getEhTemplate()) {
-            throw new ProntuarioTemplateException(idProntuario);
+    public Resposta addResposta(Long idFormulario, Long idQuesito, Resposta respostaNova) {
+        Formulario formulario = this.getById(idFormulario);
+        if(formulario.getEhTemplate()) {
+            throw new FormularioTemplateException(idFormulario);
         }
         Quesito quesito = quesitoService.getById(idQuesito);
         
-        Prontuario prontuarioDoQuesito = quesito.getProntuario();
-        if(prontuarioDoQuesito == null || !prontuarioDoQuesito.getId().equals(idProntuario)) {
-            throw new QuesitoNotInProntuarioException(idProntuario, idQuesito);
+        Formulario formularioDoQuesito = quesito.getFormulario();
+        if(formularioDoQuesito == null || !formularioDoQuesito.getId().equals(idFormulario)) {
+            throw new QuesitoNotInFormularioException(idFormulario, idQuesito);
         }
         Resposta respostaCriada;
         if(quesito.getResposta() == null){
@@ -221,16 +221,16 @@ public class ProntuarioService {
     }
 
     @Transactional
-    public Prontuario addProntuarioFromTemplate(Long idTemplate) {
-        Prontuario prontuarioTemplate = this.getById(idTemplate);
-        if(!prontuarioTemplate.getEhTemplate()) throw new ProntuarioNotTemplateException(idTemplate);
-        Prontuario prontuarioCriado = this.duplicar(prontuarioTemplate.getId(), null);
-        prontuarioCriado.setEhTemplate(false);
-        return prontuarioRepository.save(prontuarioCriado);
+    public Formulario addFormularioFromTemplate(Long idTemplate) {
+        Formulario formularioTemplate = this.getById(idTemplate);
+        if(!formularioTemplate.getEhTemplate()) throw new FormularioNotTemplateException(idTemplate);
+        Formulario formularioCriado = this.duplicar(formularioTemplate.getId(), null);
+        formularioCriado.setEhTemplate(false);
+        return formularioRepository.save(formularioCriado);
     }
 
     @Transactional
-    public Map<String, String> getDiagnosticoLLM(Long idProntuario) {
+    public Map<String, String> getDiagnosticoLLM(Long idFormulario) {
         String prompt = 
         "Com base no seguinte JSON, que corresponde a um prontuário de um paciente, faça um diagnóstico do paciente. " + 
         "Você não precisa se ater a divisão de seções e quesitos, apenas faça um diagnóstico geral do paciente. " +
@@ -241,27 +241,27 @@ public class ProntuarioService {
         "de um JSON. Para ele deve ser apenas uma sugestão de diagnóstico.\n" +
         "Além disso, escreva sua resposta como plain text. Não use formatação, nem imagens.\n\n";
 
-        Prontuario prontuario = this.getById(idProntuario);
-        prompt += toJson(prontuario);
+        Formulario formulario = this.getById(idFormulario);
+        prompt += toJson(formulario);
 
         Map<String, String> respostas = new HashMap<>();
         LLMResponse response = llmService.getRespostaFromPrompt(prompt);
         respostas.put("content", response.choices().get(0).message().content());
 
-        prontuario.setDiagnosticoLLM(respostas.get("content"));
-        this.update(idProntuario, prontuario);
+        formulario.setDiagnosticoLLM(respostas.get("content"));
+        this.update(idFormulario, formulario);
         
         return respostas;
     }
 
-    private String toJson(Prontuario prontuario) {
+    private String toJson(Formulario formulario) {
         StringBuilder json = new StringBuilder("{\n");
 
-        json.append("\t\"nome\": \"").append(prontuario.getNome()).append("\",\n");
-        json.append("\t\"descricao\": \"").append(prontuario.getDescricao()).append("\",\n");
+        json.append("\t\"nome\": \"").append(formulario.getNome()).append("\",\n");
+        json.append("\t\"descricao\": \"").append(formulario.getDescricao()).append("\",\n");
         json.append("\t\"secoes\": [\n");
 
-        for (Secao secao : prontuario.getSecoes()) {
+        for (Secao secao : formulario.getSecoes()) {
             json.append("\t\t{\n");
             json.append("\t\t\t\"nome\": \"").append(secao.getTitulo()).append("\",\n");
             json.append("\t\t\t\"quesitos\": [\n");
@@ -288,40 +288,40 @@ public class ProntuarioService {
     }
 
     @Transactional
-    public Diagnostico addDiagnostico(Long idProntuario, Diagnostico diagnostico) {
-        Prontuario prontuario = this.getById(idProntuario);
-        diagnostico.setProntuario(prontuario);
+    public Diagnostico addDiagnostico(Long idFormulario, Diagnostico diagnostico) {
+        Formulario formulario = this.getById(idFormulario);
+        diagnostico.setFormulario(formulario);
         
         diagnostico = diagnosticoService.create(diagnostico);
 
-        prontuario.getDiagnosticos().add(diagnostico);
+        formulario.getDiagnosticos().add(diagnostico);
 
-        this.create(prontuario);
+        this.create(formulario);
         return diagnostico;
     }
 
     @Transactional
-    public void removeDiagnostico(Long idProntuario, Long idDiagnostico) {
-        Prontuario prontuario = this.getById(idProntuario);
+    public void removeDiagnostico(Long idFormulario, Long idDiagnostico) {
+        Formulario formulario = this.getById(idFormulario);
         Diagnostico diagnostico = diagnosticoService.getById(idDiagnostico);
         
-        if(prontuario.getDiagnosticos().contains(diagnostico)){
-            prontuario.getDiagnosticos().remove(diagnostico);
-            this.create(prontuario);
+        if(formulario.getDiagnosticos().contains(diagnostico)){
+            formulario.getDiagnosticos().remove(diagnostico);
+            this.create(formulario);
             diagnosticoService.delete(idDiagnostico);
         }else{
-            throw new DiagnosticoNotInProntuarioException(idProntuario, idDiagnostico);
+            throw new DiagnosticoNotInFormularioException(idFormulario, idDiagnostico);
         }
     }
 
-    public Diagnostico getDiagnostico(Long idProntuario) {
-        Prontuario prontuario = this.getById(idProntuario);
-        List<Opcao> opcoesMarcadas = this.getOpcoesMarcadas(prontuario);
+    public Diagnostico getDiagnostico(Long idFormulario) {
+        Formulario formulario = this.getById(idFormulario);
+        List<Opcao> opcoesMarcadas = this.getOpcoesMarcadas(formulario);
 
         System.out.println("1");
         int qntDiagnosticos = 0;
         Diagnostico diagnosticoToReturn = Diagnostico.inconclusivo();
-        for (Diagnostico diagnostico : prontuario.getDiagnosticos()) {
+        for (Diagnostico diagnostico : formulario.getDiagnosticos()) {
             if(ehSubsequencia(diagnostico.getOpcoesMarcadas(), opcoesMarcadas)) {
                 qntDiagnosticos++;
                 diagnosticoToReturn = diagnostico;
@@ -335,10 +335,10 @@ public class ProntuarioService {
         return diagnosticoToReturn;
     }
     
-    private List<Opcao> getOpcoesMarcadas(Prontuario prontuario) {
+    private List<Opcao> getOpcoesMarcadas(Formulario formulario) {
         List<Opcao> retorno = new ArrayList<>();
         
-        for (Secao secao : prontuario.getSecoes()) {
+        for (Secao secao : formulario.getSecoes()) {
             retorno.addAll(secaoService.getOpcoesMarcadas(secao));
         }
         
@@ -368,10 +368,10 @@ public class ProntuarioService {
     }
 
     @Transactional
-    public Prontuario finalizarProntuario(Long idProntuario) {
+    public Formulario finalizarFormulario(Long idFormulario) {
         
-        Prontuario prontuario = this.getById(idProntuario);       
-        Queue<Secao> filaSecoes = new LinkedList<>(prontuario.getSecoes());
+        Formulario formulario = this.getById(idFormulario);       
+        Queue<Secao> filaSecoes = new LinkedList<>(formulario.getSecoes());
         List<Secao> listaTodasSecoes = new ArrayList<>();
         Queue<Quesito> filaQuesitos = new LinkedList<>();
         List<Quesito> listaTodosQuesitos = new ArrayList<>();
@@ -392,35 +392,35 @@ public class ProntuarioService {
         }
         
         StringBuilder erros = new StringBuilder("");
-        erros = verificaCamposObrigatoriosDeEntidades(prontuario, listaTodasSecoes, listaTodosQuesitos, erros);
-        erros = verificaProntuarioSemSecao(prontuario, erros);
+        erros = verificaCamposObrigatoriosDeEntidades(formulario, listaTodasSecoes, listaTodosQuesitos, erros);
+        erros = verificaFormularioSemSecao(formulario, erros);
         erros = secaoService.verificaSecoesVazias(listaTodasSecoes, erros);
         erros = quesitoService.verificaQuesitosObjetivosSemOpcao(listaTodosQuesitos, erros);
         erros = opcaoService.verificaOpcoesComMesmoNome(listaTodosQuesitos, erros);
-        erros = verificaOrdemOpcoesHabilitadoras(prontuario, erros);
+        erros = verificaOrdemOpcoesHabilitadoras(formulario, erros);
 
         if (erros.length() > 0) {
-            throw new ProntuarioInconsistenteException(erros.toString());
+            throw new FormularioInconsistenteException(erros.toString());
         }
 
-        prontuario.setFinalizado(true);
-        return this.create(prontuario);
+        formulario.setFinalizado(true);
+        return this.create(formulario);
     }
 
-    private StringBuilder verificaProntuarioSemSecao(Prontuario prontuario, StringBuilder erros) {
-        if (prontuario.getSecoes().isEmpty()) {
+    private StringBuilder verificaFormularioSemSecao(Formulario formulario, StringBuilder erros) {
+        if (formulario.getSecoes().isEmpty()) {
             erros.append("O prontuário deve ter pelo menos uma seção.\n");
         }
         return erros;
     }
 
-    private StringBuilder verificaCamposObrigatoriosDeEntidades(Prontuario prontuario, List<Secao> listaTodasSecoes, List<Quesito>listaTodosQuesitos, StringBuilder erros) {
+    private StringBuilder verificaCamposObrigatoriosDeEntidades(Formulario formulario, List<Secao> listaTodasSecoes, List<Quesito>listaTodosQuesitos, StringBuilder erros) {
 
-        if (prontuario.getNome() == null || prontuario.getNome().isEmpty()) {
+        if (formulario.getNome() == null || formulario.getNome().isEmpty()) {
             erros.append("O prontuário deve possuir um nome.\n");
         }
 
-        if (prontuario.getDescricao() == null || prontuario.getDescricao().isEmpty()) {
+        if (formulario.getDescricao() == null || formulario.getDescricao().isEmpty()) {
             erros.append("O prontuário deve possuir uma descrição.\n");
         }
         
@@ -478,11 +478,11 @@ public class ProntuarioService {
         return erros;
     }
 
-    private StringBuilder verificaOrdemOpcoesHabilitadoras(Prontuario prontuario, StringBuilder erros) {
+    private StringBuilder verificaOrdemOpcoesHabilitadoras(Formulario formulario, StringBuilder erros) {
         List<Quesito> quesitosJaVistos = new ArrayList<>();
 
-        for(Item secao : prontuario.getSecoes()) {
-            quesitosJaVistos.addAll(percorreProntuario(secao.getSubItens()));
+        for(Item secao : formulario.getSecoes()) {
+            quesitosJaVistos.addAll(percorreFormulario(secao.getSubItens()));
         }
 
         List<Opcao> opcoesJaVistas = new ArrayList<>();
@@ -512,7 +512,7 @@ public class ProntuarioService {
         return erros;
     }
 
-    private List<Quesito> percorreProntuario(List<Item> itens) {
+    private List<Quesito> percorreFormulario(List<Item> itens) {
 
         List<Quesito> quesitos = new ArrayList<>();
 
@@ -520,7 +520,7 @@ public class ProntuarioService {
             if(item instanceof Quesito) {
                 quesitos.add((Quesito) item);
             } else {
-                quesitos.addAll(percorreProntuario(item.getSubItens()));
+                quesitos.addAll(percorreFormulario(item.getSubItens()));
             }
         }
 

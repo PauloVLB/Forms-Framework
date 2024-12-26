@@ -65,7 +65,7 @@ public class DiagnosticoService {
         Diagnostico diagnostico = this.getById(idDiagnostico);
         Opcao opcao = opcaoService.getById(idOpcao);
         
-        if(diagnostico.getProntuario() != opcao.getQuesito().getProntuario()){
+        if(diagnostico.getFormulario() != opcao.getQuesito().getFormulario()){
             throw new DiagnosticoAndOpcaoIncompatibleException(idDiagnostico, idOpcao);
         }
 

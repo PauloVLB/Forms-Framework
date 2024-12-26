@@ -1,4 +1,4 @@
-package br.ufrn.DASH.mapper.prontuario;
+package br.ufrn.DASH.mapper.formulario;
 
 import static br.ufrn.DASH.model.interfaces.GenericEntityToId.TToIds;
 
@@ -18,7 +18,7 @@ import br.ufrn.DASH.mapper.secao.SecaoCompleteOutput;
 import br.ufrn.DASH.mapper.secao.SecaoMapper;
 import br.ufrn.DASH.mapper.subItem.ItemOutput;
 import br.ufrn.DASH.model.Opcao;
-import br.ufrn.DASH.model.Prontuario;
+import br.ufrn.DASH.model.Formulario;
 import br.ufrn.DASH.model.Quesito;
 import br.ufrn.DASH.model.Resposta;
 import br.ufrn.DASH.model.Secao;
@@ -28,7 +28,7 @@ import br.ufrn.DASH.model.interfaces.Item;
     componentModel = MappingConstants.ComponentModel.SPRING,
     uses = {SecaoMapper.class}
 )
-public interface ProntuarioMapper {
+public interface FormularioMapper {
 
     @Mapping(target = "nome")
     @Mapping(target = "descricao")
@@ -40,7 +40,7 @@ public interface ProntuarioMapper {
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "diagnosticoLLM", ignore = true)
     @Mapping(target = "diagnosticos", ignore = true)
-    Prontuario toProntuarioFromCreate(ProntuarioCreate prontuarioCreate);
+    Formulario toFormularioFromCreate(FormularioCreate formularioCreate);
 
     @Mapping(target = "nome")
     @Mapping(target = "descricao")
@@ -52,7 +52,7 @@ public interface ProntuarioMapper {
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "diagnosticoLLM", ignore = true)
     @Mapping(target = "diagnosticos", ignore = true)
-    Prontuario toProntuarioFromUpdate(ProntuarioUpdate prontuarioUpdate);
+    Formulario toFormularioFromUpdate(FormularioUpdate formularioUpdate);
 
     @Mapping(target = "nome")
     @Mapping(target = "descricao")
@@ -63,7 +63,7 @@ public interface ProntuarioMapper {
     @Mapping(target = "usuarioId", source = "usuario.id")
     @Mapping(target = "secoesIds", source = "secoes", qualifiedByName = "secoesToIds")
     @Mapping(target = "diagnosticosIds", source = "diagnosticos", qualifiedByName = "diagnosticosToIds")
-    ProntuarioOutput toProntuarioOutput(Prontuario prontuario);
+    FormularioOutput toFormularioOutput(Formulario formulario);
     
     @Named("diagnosticosToIds")
     default List<Long> diagnosticosToIds(List<Diagnostico> diagnosticos) {
@@ -78,7 +78,7 @@ public interface ProntuarioMapper {
     @Mapping(target = "id")
     @Mapping(target = "usuarioId", source = "usuario.id")
     @Mapping(target = "secoes", source = "secoes")
-    ProntuarioCompleteOutput toProntuarioCompleteOutput(Prontuario prontuario);
+    FormularioCompleteOutput toFormularioCompleteOutput(Formulario formulario);
     
     default List<SecaoCompleteOutput> toSecoesCompleteOutput(List<Secao> secoes) {
         List<SecaoCompleteOutput> secoesCompleteOutput = new ArrayList<>();
@@ -116,7 +116,7 @@ public interface ProntuarioMapper {
             secao.getNivel(),
             subItensOutput,
             secao.getSuperSecao() != null ? secao.getSuperSecao().getId() : null,
-            secao.getProntuario() != null ? secao.getProntuario().getId() : null
+            secao.getFormulario() != null ? secao.getFormulario().getId() : null
         );
     }
 
