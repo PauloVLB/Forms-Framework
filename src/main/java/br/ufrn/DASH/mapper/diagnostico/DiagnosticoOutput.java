@@ -5,7 +5,7 @@ import java.util.List;
 public record DiagnosticoOutput(
     Long id,
     String descricao,
-    Long prontuarioId,
+    Long formularioId,
     List<Long> opcoesMarcadasIds
 ) 
 {}

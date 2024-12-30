@@ -23,7 +23,7 @@ public interface SecaoMapper {
     @Mapping(target = "nivel")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "subSecoes", ignore = true)
-    @Mapping(target = "prontuario", ignore = true)
+    @Mapping(target = "formulario", ignore = true)
     @Mapping(target = "quesitos", ignore = true)
     @Mapping(target = "superSecao", ignore = true)
     @Mapping(target = "subItens", ignore = true)
@@ -34,7 +34,7 @@ public interface SecaoMapper {
     @Mapping(target = "nivel")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "subSecoes", ignore = true)
-    @Mapping(target = "prontuario", ignore = true)
+    @Mapping(target = "formulario", ignore = true)
     @Mapping(target = "quesitos", ignore = true)
     @Mapping(target = "superSecao", ignore = true)
     @Mapping(target = "subItens", ignore = true)
@@ -46,7 +46,7 @@ public interface SecaoMapper {
     @Mapping(target = "nivel")
     @Mapping(target = "subSecoesIds", source = "subSecoes", qualifiedByName = "secoesToIds")
     @Mapping(target = "superSecaoId", source = "superSecao.id")
-    @Mapping(target = "prontuarioId", source = "prontuario.id")
+    @Mapping(target = "formularioId", source = "formulario.id")
     @Mapping(target = "quesitosIds", source = "quesitos", qualifiedByName = "quesitosToIds")
     SecaoOutput toSecaoOutput(Secao secao);
 

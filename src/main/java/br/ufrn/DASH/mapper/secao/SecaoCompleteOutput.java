@@ -13,5 +13,5 @@ public record SecaoCompleteOutput(
     Integer nivel,
     List<ItemOutput> subItens,
     Long superSecaoId,
-    Long prontuarioId) implements ItemOutput
+    Long formularioId) implements ItemOutput
 {}

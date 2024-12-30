@@ -33,7 +33,7 @@ public class Diagnostico implements GenericEntity{
     private List<Opcao> opcoesMarcadas = new ArrayList<Opcao>(); 
     
     @ManyToOne
-    private Prontuario prontuario;
+    private Formulario formulario;
     
     public List<Opcao> getOpcoesMarcadas(){
         if(opcoesMarcadas != null)

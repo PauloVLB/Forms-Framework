@@ -39,7 +39,7 @@ public class Secao implements GenericEntity, Item{
     private Secao superSecao;
     
     @ManyToOne
-    private Prontuario prontuario;
+    private Formulario formulario;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "secao")
     private List<Quesito> quesitos = new ArrayList<Quesito>();
@@ -52,11 +52,11 @@ public class Secao implements GenericEntity, Item{
         return subItens;
     }
 
-    public Prontuario getProntuario() {
+    public Formulario getFormulario() {
         if(this.superSecao != null) {
-            return this.superSecao.getProntuario();
+            return this.superSecao.getFormulario();
         } else {
-            return this.prontuario;
+            return this.formulario;
         }
     }
 }

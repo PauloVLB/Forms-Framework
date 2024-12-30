@@ -10,5 +10,5 @@ public record UsuarioOutput(
     String login,
     String senha,
     TipoUsuario tipoUsuario,
-    List<Long> prontuariosIds)
+    List<Long> formulariosIds)
 {}

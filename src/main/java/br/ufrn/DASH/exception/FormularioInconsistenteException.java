@@ -1,9 +1,9 @@
 package br.ufrn.DASH.exception;
 
-public class ProntuarioInconsistenteException extends DashException {
+public class FormularioInconsistenteException extends DashException {
     String listaErros;
 
-    public ProntuarioInconsistenteException(String listaErros) {
+    public FormularioInconsistenteException(String listaErros) {
         this.listaErros = listaErros;
     }
 

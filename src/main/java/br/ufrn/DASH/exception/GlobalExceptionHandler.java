@@ -31,8 +31,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ProntuarioTemplateException.class)
-    public ResponseEntity<Map<String, Object>> handleProntuarioTemplateException(ProntuarioTemplateException ex){
+    @ExceptionHandler(FormularioTemplateException.class)
+    public ResponseEntity<Map<String, Object>> handleFormularioTemplateException(FormularioTemplateException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
         errorResponse.put("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(ProntuarioNotTemplateException.class)
-    public ResponseEntity<Map<String, Object>> handleProntuarioNotTemplateException(ProntuarioNotTemplateException ex){
+    @ExceptionHandler(FormularioNotTemplateException.class)
+    public ResponseEntity<Map<String, Object>> handleFormularioNotTemplateException(FormularioNotTemplateException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
         errorResponse.put("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
@@ -50,8 +50,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(QuesitoNotInProntuarioException.class)
-    public ResponseEntity<Map<String, Object>> handleQuesitoNotInProntuarioException(QuesitoNotInProntuarioException ex){
+    @ExceptionHandler(QuesitoNotInFormularioException.class)
+    public ResponseEntity<Map<String, Object>> handleQuesitoNotInFormularioException(QuesitoNotInFormularioException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
         errorResponse.put("error", HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -90,8 +90,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DiagnosticoNotInProntuarioException.class)
-    public ResponseEntity<Map<String, Object>> handleDiagnosticoNotInProncuarioException(DiagnosticoNotInProntuarioException ex){
+    @ExceptionHandler(DiagnosticoNotInFormularioException.class)
+    public ResponseEntity<Map<String, Object>> handleDiagnosticoNotInProncuarioException(DiagnosticoNotInFormularioException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
         errorResponse.put("error", HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -140,8 +140,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ProntuarioInconsistenteException.class)
-    public ResponseEntity<Map<String, Object>> handleProntuarioInconsistenteException(ProntuarioInconsistenteException ex){
+    @ExceptionHandler(FormularioInconsistenteException.class)
+    public ResponseEntity<Map<String, Object>> handleFormularioInconsistenteException(FormularioInconsistenteException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.UNPROCESSABLE_ENTITY.value());
         errorResponse.put("error", HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase());

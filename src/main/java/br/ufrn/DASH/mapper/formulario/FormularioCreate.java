@@ -1,7 +1,7 @@
-package br.ufrn.DASH.mapper.prontuario;
+package br.ufrn.DASH.mapper.formulario;
 
 
-public record ProntuarioCreate(
+public record FormularioCreate(
     String nome, 
     String descricao,
     Boolean ehPublico,
