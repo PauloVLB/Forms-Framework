@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Diagnostico implements GenericEntity{
+public class Feedback implements GenericEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class Diagnostico implements GenericEntity{
             sortById(opcoesMarcadas);
         return opcoesMarcadas;
     }
-    public static Diagnostico inconclusivo() {
-        return new Diagnostico(null, "Inconclusivo", null, null);
+    public static Feedback inconclusivo() {
+        return new Feedback(null, "Inconclusivo", null, null);
     }
 }

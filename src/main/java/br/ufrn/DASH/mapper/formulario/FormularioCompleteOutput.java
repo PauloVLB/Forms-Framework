@@ -13,6 +13,6 @@ public record FormularioCompleteOutput(
     Boolean ehTemplate,
     Long usuarioId,
     List<SecaoCompleteOutput> secoes,
-    String diagnosticoLLM
+    String feedbackcoLLM
     )
 {}

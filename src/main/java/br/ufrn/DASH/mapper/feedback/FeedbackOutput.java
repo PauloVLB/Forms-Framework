@@ -1,8 +1,8 @@
-package br.ufrn.DASH.mapper.diagnostico;
+package br.ufrn.DASH.mapper.feedback;
 
 import java.util.List;
 
-public record DiagnosticoOutput(
+public record FeedbackOutput(
     Long id,
     String descricao,
     Long formularioId,

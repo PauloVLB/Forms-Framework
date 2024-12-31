@@ -33,7 +33,7 @@ public class Opcao implements GenericEntity{
     
 
     @ManyToMany(mappedBy = "opcoesMarcadas")
-    private List<Diagnostico> diagnosticos = new ArrayList<Diagnostico>();
+    private List<Feedback> feedbacks = new ArrayList<Feedback>();
     
     @Override
     public boolean equals(Object o) {

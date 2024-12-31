@@ -10,14 +10,14 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufrn.DASH.exception.DiagnosticoNotInFormularioException;
+import br.ufrn.DASH.exception.FeedbackNotInFormularioException;
 import br.ufrn.DASH.exception.EntityNotFoundException;
 import br.ufrn.DASH.exception.FormularioInconsistenteException;
 import br.ufrn.DASH.exception.FormularioNotTemplateException;
 import br.ufrn.DASH.exception.FormularioTemplateException;
 import br.ufrn.DASH.exception.QuesitoNotInFormularioException;
 import br.ufrn.DASH.mapper.llm.LLMResponse;
-import br.ufrn.DASH.model.Diagnostico;
+import br.ufrn.DASH.model.Feedback;
 import br.ufrn.DASH.model.Opcao;
 import br.ufrn.DASH.model.Formulario;
 import br.ufrn.DASH.model.Quesito;
@@ -56,7 +56,7 @@ public class FormularioService {
     private LLMService llmService;
 
     @Autowired
-    private DiagnosticoService diagnosticoService;
+    private FeedbackService feedbackService;
 
     @Transactional
     public Formulario create(Formulario formulario) {
@@ -230,7 +230,7 @@ public class FormularioService {
     }
 
     @Transactional
-    public Map<String, String> getDiagnosticoLLM(Long idFormulario) {
+    public Map<String, String> getFeedbackLLM(Long idFormulario) {
         String prompt = 
         "Com base no seguinte JSON, que corresponde a um prontuário de um paciente, faça um diagnóstico do paciente. " + 
         "Você não precisa se ater a divisão de seções e quesitos, apenas faça um diagnóstico geral do paciente. " +
@@ -248,7 +248,7 @@ public class FormularioService {
         LLMResponse response = llmService.getRespostaFromPrompt(prompt);
         respostas.put("content", response.choices().get(0).message().content());
 
-        formulario.setDiagnosticoLLM(respostas.get("content"));
+        formulario.setFeedbackLLM(respostas.get("content"));
         this.update(idFormulario, formulario);
         
         return respostas;
@@ -288,51 +288,51 @@ public class FormularioService {
     }
 
     @Transactional
-    public Diagnostico addDiagnostico(Long idFormulario, Diagnostico diagnostico) {
+    public Feedback addFeedback(Long idFormulario, Feedback feedback) {
         Formulario formulario = this.getById(idFormulario);
-        diagnostico.setFormulario(formulario);
+        feedback.setFormulario(formulario);
         
-        diagnostico = diagnosticoService.create(diagnostico);
+        feedback = feedbackService.create(feedback);
 
-        formulario.getDiagnosticos().add(diagnostico);
+        formulario.getFeedbacks().add(feedback);
 
         this.create(formulario);
-        return diagnostico;
+        return feedback;
     }
 
     @Transactional
-    public void removeDiagnostico(Long idFormulario, Long idDiagnostico) {
+    public void removeFeedback(Long idFormulario, Long idFeedback) {
         Formulario formulario = this.getById(idFormulario);
-        Diagnostico diagnostico = diagnosticoService.getById(idDiagnostico);
+        Feedback feedback = feedbackService.getById(idFeedback);
         
-        if(formulario.getDiagnosticos().contains(diagnostico)){
-            formulario.getDiagnosticos().remove(diagnostico);
+        if(formulario.getFeedbacks().contains(feedback)){
+            formulario.getFeedbacks().remove(feedback);
             this.create(formulario);
-            diagnosticoService.delete(idDiagnostico);
+            feedbackService.delete(idFeedback);
         }else{
-            throw new DiagnosticoNotInFormularioException(idFormulario, idDiagnostico);
+            throw new FeedbackNotInFormularioException(idFormulario, idFeedback);
         }
     }
 
-    public Diagnostico getDiagnostico(Long idFormulario) {
+    public Feedback getFeedback(Long idFormulario) {
         Formulario formulario = this.getById(idFormulario);
         List<Opcao> opcoesMarcadas = this.getOpcoesMarcadas(formulario);
 
         System.out.println("1");
-        int qntDiagnosticos = 0;
-        Diagnostico diagnosticoToReturn = Diagnostico.inconclusivo();
-        for (Diagnostico diagnostico : formulario.getDiagnosticos()) {
-            if(ehSubsequencia(diagnostico.getOpcoesMarcadas(), opcoesMarcadas)) {
-                qntDiagnosticos++;
-                diagnosticoToReturn = diagnostico;
+        int qntFeedbacks = 0;
+        Feedback feedbackToReturn = Feedback.inconclusivo();
+        for (Feedback feedback : formulario.getFeedbacks()) {
+            if(ehSubsequencia(feedback.getOpcoesMarcadas(), opcoesMarcadas)) {
+                qntFeedbacks++;
+                feedbackToReturn = feedback;
             }
         }
         
-        if(qntDiagnosticos > 1) {
-            diagnosticoToReturn = Diagnostico.inconclusivo();
+        if(qntFeedbacks > 1) {
+            feedbackToReturn = Feedback.inconclusivo();
         } 
 
-        return diagnosticoToReturn;
+        return feedbackToReturn;
     }
     
     private List<Opcao> getOpcoesMarcadas(Formulario formulario) {
@@ -348,17 +348,17 @@ public class FormularioService {
         return retorno;
     }
     
-    private boolean ehSubsequencia(List<Opcao> opcoesDiagnostico, List<Opcao> opcoesResposta) {
+    private boolean ehSubsequencia(List<Opcao> opcoesFeedback, List<Opcao> opcoesResposta) {
         int slow = 0;
         int fast = 0;
         int sizeFast = opcoesResposta.size();
-        int sizeSlow = opcoesDiagnostico.size();
+        int sizeSlow = opcoesFeedback.size();
 
         while (fast < sizeFast && slow < sizeSlow) {
-            if(opcoesDiagnostico.get(slow).getId().compareTo(opcoesResposta.get(fast).getId()) < 0){
+            if(opcoesFeedback.get(slow).getId().compareTo(opcoesResposta.get(fast).getId()) < 0){
                 return false;
             }
-            if(opcoesDiagnostico.get(slow).getId().equals(opcoesResposta.get(fast).getId())){
+            if(opcoesFeedback.get(slow).getId().equals(opcoesResposta.get(fast).getId())){
                 slow++;
             }
             fast++;

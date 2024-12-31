@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
 
-import br.ufrn.DASH.model.Diagnostico;
+import br.ufrn.DASH.model.Feedback;
 import br.ufrn.DASH.mapper.opcao.OpcaoCompleteOutput;
 import br.ufrn.DASH.mapper.quesito.QuesitoCompleteOutput;
 import br.ufrn.DASH.mapper.resposta.RespostaCompleteOutput;
@@ -38,8 +38,8 @@ public interface FormularioMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "secoes", ignore = true)
     @Mapping(target = "usuario", ignore = true)
-    @Mapping(target = "diagnosticoLLM", ignore = true)
-    @Mapping(target = "diagnosticos", ignore = true)
+    @Mapping(target = "feedbackLLM", ignore = true)
+    @Mapping(target = "feedbacks", ignore = true)
     Formulario toFormularioFromCreate(FormularioCreate formularioCreate);
 
     @Mapping(target = "nome")
@@ -50,8 +50,8 @@ public interface FormularioMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "secoes", ignore = true)
     @Mapping(target = "usuario", ignore = true)
-    @Mapping(target = "diagnosticoLLM", ignore = true)
-    @Mapping(target = "diagnosticos", ignore = true)
+    @Mapping(target = "feedbackLLM", ignore = true)
+    @Mapping(target = "feedbacks", ignore = true)
     Formulario toFormularioFromUpdate(FormularioUpdate formularioUpdate);
 
     @Mapping(target = "nome")
@@ -62,12 +62,12 @@ public interface FormularioMapper {
     @Mapping(target = "id")
     @Mapping(target = "usuarioId", source = "usuario.id")
     @Mapping(target = "secoesIds", source = "secoes", qualifiedByName = "secoesToIds")
-    @Mapping(target = "diagnosticosIds", source = "diagnosticos", qualifiedByName = "diagnosticosToIds")
+    @Mapping(target = "feedbacksIds", source = "feedbacks", qualifiedByName = "feedbacksToIds")
     FormularioOutput toFormularioOutput(Formulario formulario);
     
-    @Named("diagnosticosToIds")
-    default List<Long> diagnosticosToIds(List<Diagnostico> diagnosticos) {
-        return TToIds(diagnosticos);
+    @Named("feedbacksToIds")
+    default List<Long> feedbacksToIds(List<Feedback> feedbacks) {
+        return TToIds(feedbacks);
     }
 
     @Mapping(target = "nome")

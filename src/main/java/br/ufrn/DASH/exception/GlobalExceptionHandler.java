@@ -90,8 +90,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DiagnosticoNotInFormularioException.class)
-    public ResponseEntity<Map<String, Object>> handleDiagnosticoNotInProncuarioException(DiagnosticoNotInFormularioException ex){
+    @ExceptionHandler(FeedbackNotInFormularioException.class)
+    public ResponseEntity<Map<String, Object>> handleFeedbackNotInProncuarioException(FeedbackNotInFormularioException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
         errorResponse.put("error", HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -110,8 +110,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(OpcaoAlreadyInDiagnosticoException.class)
-    public ResponseEntity<Map<String, Object>> handleOpcaoAlreadyInDiagnosticoException(OpcaoAlreadyInDiagnosticoException ex){
+    @ExceptionHandler(OpcaoAlreadyInFeedbackException.class)
+    public ResponseEntity<Map<String, Object>> handleOpcaoAlreadyInFeedbackException(OpcaoAlreadyInFeedbackException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
         errorResponse.put("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
@@ -120,8 +120,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(OpcaoNotInDiagnosticoExecption.class)
-    public ResponseEntity<Map<String, Object>> handleOpcaoNotInDiagnosticoExecption(OpcaoNotInDiagnosticoExecption ex){
+    @ExceptionHandler(OpcaoNotInFeedbackExecption.class)
+    public ResponseEntity<Map<String, Object>> handleOpcaoNotInFeedbackExecption(OpcaoNotInFeedbackExecption ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
         errorResponse.put("error", HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -130,8 +130,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DiagnosticoAndOpcaoIncompatibleException.class)
-    public ResponseEntity<Map<String, Object>> handleDiagnosticoAndOpcaoIncompatibleException(DiagnosticoAndOpcaoIncompatibleException ex){
+    @ExceptionHandler(FeedbackAndOpcaoIncompatibleException.class)
+    public ResponseEntity<Map<String, Object>> handleFeedbackAndOpcaoIncompatibleException(FeedbackAndOpcaoIncompatibleException ex){
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
         errorResponse.put("error", HttpStatus.NOT_FOUND.getReasonPhrase());
