@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufrn.DASH.mapper.diagnostico.DiagnosticoCreate;
-import br.ufrn.DASH.mapper.diagnostico.DiagnosticoMapper;
-import br.ufrn.DASH.mapper.diagnostico.DiagnosticoOutput;
+import br.ufrn.DASH.mapper.feedback.FeedbackCreate;
+import br.ufrn.DASH.mapper.feedback.FeedbackMapper;
+import br.ufrn.DASH.mapper.feedback.FeedbackOutput;
 import br.ufrn.DASH.mapper.formulario.FormularioCompleteOutput;
 import br.ufrn.DASH.mapper.formulario.FormularioCreate;
 import br.ufrn.DASH.mapper.formulario.FormularioMapper;
@@ -31,7 +31,7 @@ import br.ufrn.DASH.mapper.resposta.RespostaOutput;
 import br.ufrn.DASH.mapper.secao.SecaoCreate;
 import br.ufrn.DASH.mapper.secao.SecaoMapper;
 import br.ufrn.DASH.mapper.secao.SecaoOutput;
-import br.ufrn.DASH.model.Diagnostico;
+import br.ufrn.DASH.model.Feedback;
 import br.ufrn.DASH.model.Formulario;
 import br.ufrn.DASH.model.Resposta;
 import br.ufrn.DASH.model.Secao;
@@ -54,7 +54,7 @@ public class FormularioController {
     private RespostaMapper respostaMapper;
 
     @Autowired
-    private DiagnosticoMapper diagnosticoMapper;
+    private FeedbackMapper feedbackMapper;
 
     @PostMapping
     public ResponseEntity<FormularioOutput> create(@RequestBody FormularioCreate formularioCreate) {
@@ -158,32 +158,32 @@ public class FormularioController {
         return new ResponseEntity<FormularioOutput>(formularioOutput, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{idFormulario}/diagnosticoLLM")
+    @GetMapping("/{idFormulario}/feedbackLLM")
     public ResponseEntity<Map<String, String>> getPath(@PathVariable Long idFormulario) {
-        Map<String, String> response = formularioService.getDiagnosticoLLM(idFormulario);
+        Map<String, String> response = formularioService.getFeedbackLLM(idFormulario);
         return new ResponseEntity<Map<String, String>>(response, HttpStatus.OK);
     }
     
-    @PostMapping("/{idFormulario}/addDiagnostico")
-    public ResponseEntity<DiagnosticoOutput> addDiagnostico(@PathVariable Long idFormulario, @RequestBody DiagnosticoCreate diagnosticoCreate) {
-        Diagnostico diagnosticoNovo = diagnosticoMapper.toDiagnosticoFromCreate(diagnosticoCreate);        
-        Diagnostico diagnosticoCriado = formularioService.addDiagnostico(idFormulario, diagnosticoNovo);
-        DiagnosticoOutput diagnosticoOutput = diagnosticoMapper.toDiagnosticoOutput(diagnosticoCriado);
-        return new ResponseEntity<DiagnosticoOutput>(diagnosticoOutput, HttpStatus.CREATED);
+    @PostMapping("/{idFormulario}/addFeedback")
+    public ResponseEntity<FeedbackOutput> addFeedback(@PathVariable Long idFormulario, @RequestBody FeedbackCreate feedbackCreate) {
+        Feedback feedbackNovo = feedbackMapper.toFeedbackFromCreate(feedbackCreate);        
+        Feedback feedbackCriado = formularioService.addFeedback(idFormulario, feedbackNovo);
+        FeedbackOutput feedbackOutput = feedbackMapper.toFeedbackOutput(feedbackCriado);
+        return new ResponseEntity<FeedbackOutput>(feedbackOutput, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{idFormulario}/diagnostico/{idDiagnostico}/removeDiagnostico")
-    public ResponseEntity<Boolean> removeDiagnostico(@PathVariable Long idFormulario, @PathVariable Long idDiagnostico) {
-        // removeDiagnostico é void
-        formularioService.removeDiagnostico(idFormulario, idDiagnostico);
+    @DeleteMapping("/{idFormulario}/feedback/{idFeedback}/removeFeedback")
+    public ResponseEntity<Boolean> removeFeedback(@PathVariable Long idFormulario, @PathVariable Long idFeedback) {
+        // removeFeedback é void
+        formularioService.removeFeedback(idFormulario, idFeedback);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @GetMapping("/{idFormulario}/diagnostico")
-    public ResponseEntity<DiagnosticoOutput> diagnostico(@PathVariable Long idFormulario) {
-        Diagnostico diagnostico = formularioService.getDiagnostico(idFormulario);
-        DiagnosticoOutput diagnosticoOutput = diagnosticoMapper.toDiagnosticoOutput(diagnostico);
-        return new ResponseEntity<DiagnosticoOutput>(diagnosticoOutput, HttpStatus.OK);
+    @GetMapping("/{idFormulario}/feedback")
+    public ResponseEntity<FeedbackOutput> feedback(@PathVariable Long idFormulario) {
+        Feedback feedback = formularioService.getFeedback(idFormulario);
+        FeedbackOutput feedbackOutput = feedbackMapper.toFeedbackOutput(feedback);
+        return new ResponseEntity<FeedbackOutput>(feedbackOutput, HttpStatus.OK);
     }
 
     @PatchMapping("/{idFormulario}/finalizarFormulario")

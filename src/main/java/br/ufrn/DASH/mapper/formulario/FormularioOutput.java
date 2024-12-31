@@ -11,7 +11,7 @@ public record FormularioOutput(
     Boolean ehTemplate,
     Long usuarioId,
     List<Long> secoesIds,
-    List<Long> diagnosticosIds,
-    String diagnosticoLLM
+    List<Long> feedbacksIds,
+    String feedbackLLM
     )
 {}

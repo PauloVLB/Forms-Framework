@@ -35,7 +35,7 @@ public class Formulario implements GenericEntity{
     private Boolean ehTemplate;
 
     @Lob
-    private String diagnosticoLLM;
+    private String feedbackLLM;
 
     @ManyToOne
     private Usuario usuario;
@@ -44,7 +44,7 @@ public class Formulario implements GenericEntity{
     private List<Secao> secoes = new ArrayList<Secao>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
-    private List<Diagnostico> diagnosticos = new ArrayList<Diagnostico>();
+    private List<Feedback> feedbacks = new ArrayList<Feedback>();
     public List<Secao> getSecoes() {
         ItemUtils.ordenar(secoes);
         return secoes;

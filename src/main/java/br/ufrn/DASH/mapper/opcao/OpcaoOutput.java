@@ -6,6 +6,6 @@ public record OpcaoOutput (
     Long id,
     String textoAlternativa, 
     Integer ordem,
-    List<Long> diagnosticosIds,
+    List<Long> feedbacksIds,
     Long quesitoId)
 {}
