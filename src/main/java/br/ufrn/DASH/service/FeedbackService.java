@@ -37,7 +37,7 @@ public class FeedbackService {
     public Feedback getById(Long id) {
         return feedbackRepository.findById(id)
         .orElseThrow(
-            () -> new EntityNotFoundException(id, new Feedback())
+            () -> new EntityNotFoundException(id, Feedback.class)
         );
     }
 

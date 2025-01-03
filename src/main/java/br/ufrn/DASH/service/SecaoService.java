@@ -38,7 +38,7 @@ public class SecaoService {
 
     public Secao getById(Long id) {
         return secaoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(id, new Secao())
+                () -> new EntityNotFoundException(id, Secao.class)
             );
     }
 

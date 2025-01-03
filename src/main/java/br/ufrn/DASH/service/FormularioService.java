@@ -70,7 +70,7 @@ public class FormularioService {
     public Formulario getById(Long id) {
         return formularioRepository.findById(id)
             .orElseThrow(
-                () -> new EntityNotFoundException(id, new Formulario())
+                () -> new EntityNotFoundException(id, Formulario.class)
             );
     }
 

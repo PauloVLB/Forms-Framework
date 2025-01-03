@@ -35,7 +35,7 @@ public class RespostaService {
 
     public Resposta getById(Long id) {
         return respostaRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(id, new Resposta())
+                () -> new EntityNotFoundException(id, Resposta.class)
             );
     }
 
