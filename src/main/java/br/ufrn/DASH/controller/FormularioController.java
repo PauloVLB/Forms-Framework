@@ -192,4 +192,11 @@ public class FormularioController {
         FormularioOutput formularioOutput = formularioMapper.toFormularioOutput(formularioFinalizado);
         return new ResponseEntity<FormularioOutput>(formularioOutput, HttpStatus.OK);
     }
+
+    @PatchMapping("/{idFormulario}/finalizarRespostas")
+    public ResponseEntity<FormularioOutput> finalizarRespostas(@PathVariable Long idFormulario) {
+        Formulario formularioRespondido = formularioService.finalizarRespostas(idFormulario);
+        FormularioOutput formularioOutput = formularioMapper.toFormularioOutput(formularioRespondido);
+        return new ResponseEntity<FormularioOutput>(formularioOutput, HttpStatus.OK);
+    }
 }
