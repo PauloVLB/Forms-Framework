@@ -1,5 +1,7 @@
 package br.ufrn.DASH.service;
 
+import static br.ufrn.DASH.model.interfaces.GenericEntitySortById.sortById;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,24 +12,20 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufrn.DASH.exception.FeedbackNotInFormularioException;
 import br.ufrn.DASH.exception.EntityNotFoundException;
+import br.ufrn.DASH.exception.FeedbackNotInFormularioException;
 import br.ufrn.DASH.exception.FormularioInconsistenteException;
 import br.ufrn.DASH.exception.FormularioNotTemplateException;
 import br.ufrn.DASH.exception.FormularioTemplateException;
 import br.ufrn.DASH.exception.QuesitoNotInFormularioException;
-import br.ufrn.DASH.mapper.llm.LLMResponse;
 import br.ufrn.DASH.model.Feedback;
-import br.ufrn.DASH.model.Opcao;
 import br.ufrn.DASH.model.Formulario;
+import br.ufrn.DASH.model.Opcao;
 import br.ufrn.DASH.model.Quesito;
 import br.ufrn.DASH.model.Resposta;
 import br.ufrn.DASH.model.Secao;
 import br.ufrn.DASH.model.Usuario;
-import br.ufrn.DASH.model.interfaces.FeedbackLLM;
 import br.ufrn.DASH.model.interfaces.Item;
-
-import static br.ufrn.DASH.model.interfaces.GenericEntitySortById.sortById;
 import br.ufrn.DASH.repository.FormularioRepository;
 import br.ufrn.DASH.utils.Pair;
 import jakarta.transaction.Transactional;
