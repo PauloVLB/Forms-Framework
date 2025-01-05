@@ -9,7 +9,7 @@ public class FormularioInconsistenteException extends DashException {
 
     @Override
     public String getMessage() {
-        return "Prontuário não pode ser finalizado pois se encontra inconsistente. Erros: " + listaErros;
+        return "Formulário não pode ser finalizado pois se encontra inconsistente. Erros: " + listaErros;
     }
     
 }

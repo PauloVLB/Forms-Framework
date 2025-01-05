@@ -1,7 +1,7 @@
 package br.ufrn.DASH.model;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.ufrn.DASH.model.interfaces.GenericEntity;
 import jakarta.persistence.ElementCollection;
@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Resposta implements GenericEntity{
+public abstract class Resposta implements GenericEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,5 +37,6 @@ public class Resposta implements GenericEntity{
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Opcao> opcoesMarcadas = new ArrayList<Opcao>();
-}
 
+    public abstract void validar(StringBuilder erros);
+}

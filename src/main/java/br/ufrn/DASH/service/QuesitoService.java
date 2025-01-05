@@ -48,7 +48,7 @@ public class QuesitoService {
     public Quesito getById(Long id) {
         return quesitoRepository.findById(id)
         .orElseThrow(
-                () -> new EntityNotFoundException(id, new Quesito())
+                () -> new EntityNotFoundException(id, Quesito.class)
             );
     }
 

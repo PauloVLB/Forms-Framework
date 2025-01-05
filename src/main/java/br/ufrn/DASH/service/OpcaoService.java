@@ -35,7 +35,7 @@ public class OpcaoService {
     public Opcao getById(Long id) {
         return opcaoRepository.findById(id)
         .orElseThrow(
-            () -> new EntityNotFoundException(id, new Opcao())
+            () -> new EntityNotFoundException(id, Opcao.class)
         );
     }
 

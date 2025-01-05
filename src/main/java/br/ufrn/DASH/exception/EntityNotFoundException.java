@@ -8,10 +8,10 @@ public class EntityNotFoundException extends DashException {
     private final Long id;
     private final String entityName;
 
-    public EntityNotFoundException(Long id, GenericEntity cause) {
+    public <T extends GenericEntity> EntityNotFoundException(Long id, Class<T> cause) {
         super();
         this.id = id;
-        this.entityName = cause.getClass().getSimpleName();
+        this.entityName = cause.getSimpleName();
     }
     
     @Override

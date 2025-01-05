@@ -27,7 +27,7 @@ public class UsuarioService {
 
     public Usuario getById(Long id) {
         return usuarioRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(id, new Usuario())
+                () -> new EntityNotFoundException(id, Usuario.class)
             );
     }
 

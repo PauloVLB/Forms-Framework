@@ -14,6 +14,7 @@ import br.ufrn.DASH.exception.FeedbackNotInFormularioException;
 import br.ufrn.DASH.exception.EntityNotFoundException;
 import br.ufrn.DASH.exception.FormularioInconsistenteException;
 import br.ufrn.DASH.exception.FormularioNotTemplateException;
+import br.ufrn.DASH.exception.FormularioPoorlyAnsweredException;
 import br.ufrn.DASH.exception.FormularioTemplateException;
 import br.ufrn.DASH.exception.QuesitoNotInFormularioException;
 import br.ufrn.DASH.mapper.llm.LLMResponse;
@@ -70,7 +71,7 @@ public class FormularioService {
     public Formulario getById(Long id) {
         return formularioRepository.findById(id)
             .orElseThrow(
-                () -> new EntityNotFoundException(id, new Formulario())
+                () -> new EntityNotFoundException(id, Formulario.class)
             );
     }
 
@@ -407,9 +408,47 @@ public class FormularioService {
         return this.create(formulario);
     }
 
+    public Formulario finalizarRespostas(Long idFormulario) {
+        Formulario formulario = this.getById(idFormulario);
+        
+        if(formulario.getEhTemplate()) {
+            throw new FormularioTemplateException(idFormulario);
+        }
+
+        Queue<Secao> filaSecoes = new LinkedList<>(formulario.getSecoes());
+        List<Secao> listaTodasSecoes = new ArrayList<>();
+        Queue<Quesito> filaQuesitos = new LinkedList<>();
+        List<Quesito> listaTodosQuesitos = new ArrayList<>();
+        
+        // Percorre as Secoes
+        while (!filaSecoes.isEmpty()) {
+            Secao secao = filaSecoes.poll();
+            listaTodasSecoes.add(secao);
+            filaSecoes.addAll(secao.getSubSecoes());
+            filaQuesitos.addAll(secao.getQuesitos());
+        }
+        
+        // Percorre os Quesitos
+        while (!filaQuesitos.isEmpty()) {
+            Quesito quesito = filaQuesitos.poll();
+            listaTodosQuesitos.add(quesito);
+            filaQuesitos.addAll(quesito.getSubQuesitos());
+        }
+
+        StringBuilder erros = new StringBuilder("");
+        validaRespostas(listaTodosQuesitos, erros);
+        validaQuesitosObrigatorios(listaTodosQuesitos, erros);
+
+        if (erros.length() > 0) {
+            throw new FormularioPoorlyAnsweredException(erros.toString());
+        }
+
+        return formulario;
+    }
+
     private StringBuilder verificaFormularioSemSecao(Formulario formulario, StringBuilder erros) {
         if (formulario.getSecoes().isEmpty()) {
-            erros.append("O prontuário deve ter pelo menos uma seção.\n");
+            erros.append("O formulário deve ter pelo menos uma seção.\n");
         }
         return erros;
     }
@@ -417,11 +456,11 @@ public class FormularioService {
     private StringBuilder verificaCamposObrigatoriosDeEntidades(Formulario formulario, List<Secao> listaTodasSecoes, List<Quesito>listaTodosQuesitos, StringBuilder erros) {
 
         if (formulario.getNome() == null || formulario.getNome().isEmpty()) {
-            erros.append("O prontuário deve possuir um nome.\n");
+            erros.append("O formulário deve possuir um nome.\n");
         }
 
         if (formulario.getDescricao() == null || formulario.getDescricao().isEmpty()) {
-            erros.append("O prontuário deve possuir uma descrição.\n");
+            erros.append("O formulário deve possuir uma descrição.\n");
         }
         
         List<Secao> secoesSemNome = new ArrayList<>();
@@ -525,6 +564,22 @@ public class FormularioService {
         }
 
         return quesitos;
+    }
+
+    private void validaRespostas(List<Quesito> listaTodosQuesitos, StringBuilder erros) {
+        for (Quesito quesito : listaTodosQuesitos) {
+            if (quesito.getResposta() != null) {
+                quesito.getResposta().validar(erros);
+            }
+        }
+    }
+
+    private void validaQuesitosObrigatorios(List<Quesito> listaTodosQuesitos, StringBuilder erros) {
+        for (Quesito quesito : listaTodosQuesitos) {
+            if (quesito.getObrigatorio() && quesito.getResposta() == null) {
+                erros.append("O quesito ").append(quesito.getId()).append(" é obrigatório e não foi respondido.\n");
+            }
+        }
     }
 
 }
