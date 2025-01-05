@@ -33,7 +33,7 @@ build/
 .vscode/
 
 .env
-spring-boot-h2-db.mv.db
+*.db
 
 app.key
 app.pub

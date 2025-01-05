@@ -1,7 +1,9 @@
 spring:
+    profiles:
+        active: JUMP
     h2:
         console:
-            encoding: UTF-8
+            # encoding: UTF-8
             enabled: true
             path: /h2
     datasource:
