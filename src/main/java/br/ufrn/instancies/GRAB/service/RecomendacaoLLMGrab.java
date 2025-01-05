@@ -1,4 +1,4 @@
-package br.ufrn.instancies.DASH;
+package br.ufrn.instancies.GRAB.service;
 
 import java.util.Map;
 
@@ -8,9 +8,9 @@ import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.service.FeedbackLLM;
 
 @Component
-public class DiagnosticoLLMDash implements FeedbackLLM {
+public class RecomendacaoLLMGrab implements FeedbackLLM {
     public Map<String, String> gerarRespostaLLM(Formulario formulario) {
-        return Map.of("content", "DASH");
+        return Map.of("content", "GRAB");
     }
 
     public String gerarPrompt(Formulario formulario) {

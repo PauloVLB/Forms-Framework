@@ -31,6 +31,7 @@ public class Formulario implements GenericEntity{
     private String nome;
     private String descricao;
     private Boolean finalizado = false;
+    private Boolean respondido = false;
     private Boolean ehPublico;
     private Boolean ehTemplate;
 
@@ -39,6 +40,12 @@ public class Formulario implements GenericEntity{
 
     @ManyToOne
     private Usuario usuario;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Formulario formularioPai;
+
+    @OneToMany
+    private List<Formulario> instanciasFormulario = new ArrayList<Formulario>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
     private List<Secao> secoes = new ArrayList<Secao>();

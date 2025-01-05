@@ -199,4 +199,17 @@ public class FormularioController {
         FormularioOutput formularioOutput = formularioMapper.toFormularioOutput(formularioRespondido);
         return new ResponseEntity<FormularioOutput>(formularioOutput, HttpStatus.OK);
     }
+    
+    @PostMapping("/{idFormulario}/instanciarFormulario/{idUsuario}")
+    public ResponseEntity<FormularioOutput> instanciarFormulario(@PathVariable Long idFormulario, @PathVariable Long idUsuario) {
+        Formulario formularioInstanciado = formularioService.instanciarFormulario(idFormulario, idUsuario);
+        FormularioOutput formularioOutput = formularioMapper.toFormularioOutput(formularioInstanciado);
+        return new ResponseEntity<FormularioOutput>(formularioOutput, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{idFormulario}/estatisticasLLM")
+    public ResponseEntity<Map<String, String>> gerarEstatisticasLLM(@PathVariable Long idFormulario) {
+        Map<String, String> response = formularioService.gerarEstatisticasLLM(idFormulario);
+        return new ResponseEntity<Map<String, String>>(response, HttpStatus.OK);
+    }
 }

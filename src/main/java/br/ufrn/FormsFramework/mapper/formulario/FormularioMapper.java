@@ -40,6 +40,9 @@ public interface FormularioMapper {
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "feedbackLLM", ignore = true)
     @Mapping(target = "feedbacks", ignore = true)
+    @Mapping(target = "formularioPai", ignore = true)
+    @Mapping(target = "instanciasFormulario", ignore = true)
+    @Mapping(target = "respondido", ignore = true)
     Formulario toFormularioFromCreate(FormularioCreate formularioCreate);
 
     @Mapping(target = "nome")
@@ -52,6 +55,9 @@ public interface FormularioMapper {
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "feedbackLLM", ignore = true)
     @Mapping(target = "feedbacks", ignore = true)
+    @Mapping(target = "formularioPai", ignore = true)
+    @Mapping(target = "instanciasFormulario", ignore = true)
+    @Mapping(target = "respondido", ignore = true)
     Formulario toFormularioFromUpdate(FormularioUpdate formularioUpdate);
 
     @Mapping(target = "nome")
@@ -59,15 +65,23 @@ public interface FormularioMapper {
     @Mapping(target = "ehPublico")
     @Mapping(target = "ehTemplate")
     @Mapping(target = "finalizado")
+    @Mapping(target = "respondido")
     @Mapping(target = "id")
     @Mapping(target = "usuarioId", source = "usuario.id")
     @Mapping(target = "secoesIds", source = "secoes", qualifiedByName = "secoesToIds")
     @Mapping(target = "feedbacksIds", source = "feedbacks", qualifiedByName = "feedbacksToIds")
+    @Mapping(target = "instanciasFormularioIds", source = "instanciasFormulario", qualifiedByName = "instanciasFormularioToIds")
+    @Mapping(target = "formularioPaiId", source = "formularioPai.id")
     FormularioOutput toFormularioOutput(Formulario formulario);
     
     @Named("feedbacksToIds")
     default List<Long> feedbacksToIds(List<Feedback> feedbacks) {
         return TToIds(feedbacks);
+    }
+
+    @Named("instanciasFormularioToIds")
+    default List<Long> instanciasFormularioToIds(List<Formulario> instanciasFormulario) {
+        return TToIds(instanciasFormulario);
     }
 
     @Mapping(target = "nome")
