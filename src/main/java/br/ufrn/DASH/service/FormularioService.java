@@ -1,5 +1,7 @@
 package br.ufrn.DASH.service;
 
+import static br.ufrn.DASH.model.interfaces.GenericEntitySortById.sortById;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,24 +12,21 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufrn.DASH.exception.FeedbackNotInFormularioException;
 import br.ufrn.DASH.exception.EntityNotFoundException;
+import br.ufrn.DASH.exception.FeedbackNotInFormularioException;
 import br.ufrn.DASH.exception.FormularioInconsistenteException;
 import br.ufrn.DASH.exception.FormularioNotTemplateException;
 import br.ufrn.DASH.exception.FormularioPoorlyAnsweredException;
 import br.ufrn.DASH.exception.FormularioTemplateException;
 import br.ufrn.DASH.exception.QuesitoNotInFormularioException;
-import br.ufrn.DASH.mapper.llm.LLMResponse;
 import br.ufrn.DASH.model.Feedback;
-import br.ufrn.DASH.model.Opcao;
 import br.ufrn.DASH.model.Formulario;
+import br.ufrn.DASH.model.Opcao;
 import br.ufrn.DASH.model.Quesito;
 import br.ufrn.DASH.model.Resposta;
 import br.ufrn.DASH.model.Secao;
 import br.ufrn.DASH.model.Usuario;
 import br.ufrn.DASH.model.interfaces.Item;
-
-import static br.ufrn.DASH.model.interfaces.GenericEntitySortById.sortById;
 import br.ufrn.DASH.repository.FormularioRepository;
 import br.ufrn.DASH.utils.Pair;
 import jakarta.transaction.Transactional;
@@ -53,12 +52,15 @@ public class FormularioService {
     @Autowired
     private OpcaoService opcaoService;
 
-    @Autowired
-    private LLMService llmService;
+    // @Autowired
+    // private LLMService llmService;
 
     @Autowired
     private FeedbackService feedbackService;
 
+    @Autowired
+    private FeedbackLLM feedbackLLM;
+    
     @Transactional
     public Formulario create(Formulario formulario) {
         return formularioRepository.save(formulario);
@@ -232,28 +234,34 @@ public class FormularioService {
 
     @Transactional
     public Map<String, String> getFeedbackLLM(Long idFormulario) {
-        String prompt = 
-        "Com base no seguinte JSON, que corresponde a um prontuário de um paciente, faça um diagnóstico do paciente. " + 
-        "Você não precisa se ater a divisão de seções e quesitos, apenas faça um diagnóstico geral do paciente. " +
-        "Seu diagnóstico será avaliado por um médico especialista, que pode ou não concordar com o diagnóstico gerado. " +
-        "Portanto, pode dar sugestões de exames, tratamentos, ou qualquer outra informação que julgar relevante. " +
-        "Pode assumir que o paciente é real, e que você está fazendo um diagnóstico real.\n" + 
-        "Sua mensagem será mostrada ao usuário, deve ser transparente para ele que você está lendo as informações " +
-        "de um JSON. Para ele deve ser apenas uma sugestão de diagnóstico.\n" +
-        "Além disso, escreva sua resposta como plain text. Não use formatação, nem imagens.\n\n";
-
-        Formulario formulario = this.getById(idFormulario);
-        prompt += toJson(formulario);
-
-        Map<String, String> respostas = new HashMap<>();
-        LLMResponse response = llmService.getRespostaFromPrompt(prompt);
-        respostas.put("content", response.choices().get(0).message().content());
-
-        formulario.setFeedbackLLM(respostas.get("content"));
-        this.update(idFormulario, formulario);
-        
-        return respostas;
+         Formulario formulario = this.getById(idFormulario);
+         return feedbackLLM.gerarRespostaLLM(formulario);   
     }
+
+    // @Transactional
+    // public Map<String, String> getFeedbackLLM(Long idFormulario) {
+    //     String prompt = 
+    //     "Com base no seguinte JSON, que corresponde a um prontuário de um paciente, faça um diagnóstico do paciente. " + 
+    //     "Você não precisa se ater a divisão de seções e quesitos, apenas faça um diagnóstico geral do paciente. " +
+    //     "Seu diagnóstico será avaliado por um médico especialista, que pode ou não concordar com o diagnóstico gerado. " +
+    //     "Portanto, pode dar sugestões de exames, tratamentos, ou qualquer outra informação que julgar relevante. " +
+    //     "Pode assumir que o paciente é real, e que você está fazendo um diagnóstico real.\n" + 
+    //     "Sua mensagem será mostrada ao usuário, deve ser transparente para ele que você está lendo as informações " +
+    //     "de um JSON. Para ele deve ser apenas uma sugestão de diagnóstico.\n" +
+    //     "Além disso, escreva sua resposta como plain text. Não use formatação, nem imagens.\n\n";
+
+    //     Formulario formulario = this.getById(idFormulario);
+    //     prompt += toJson(formulario);
+
+    //     Map<String, String> respostas = new HashMap<>();
+    //     LLMResponse response = llmService.getRespostaFromPrompt(prompt);
+    //     respostas.put("content", response.choices().get(0).message().content());
+
+    //     formulario.setFeedbackLLM(respostas.get("content"));
+    //     this.update(idFormulario, formulario);
+        
+    //     return respostas;
+    // }
 
     private String toJson(Formulario formulario) {
         StringBuilder json = new StringBuilder("{\n");
