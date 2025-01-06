@@ -1,6 +1,6 @@
 spring:
     profiles:
-        active: JUMP
+        active: DASH
     h2:
         console:
             # encoding: UTF-8
@@ -32,7 +32,3 @@ springdoc:
         operationsSorter: alpha
         tagsSorter: alpha
 
-llm:
-    model: ${LLM_MODEL}
-    api-key: ${LLM_API_KEY}
-    api-url: ${LLM_API_URL}

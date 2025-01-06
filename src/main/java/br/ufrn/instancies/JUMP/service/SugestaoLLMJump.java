@@ -8,7 +8,7 @@ import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.service.FeedbackLLM;
 
 @Component
-public class SugestaoLLMJump implements FeedbackLLM {
+public class SugestaoLLMJump extends FeedbackLLM {
     public Map<String, String> gerarRespostaLLM(Formulario formulario) {
         return Map.of("content", "JUMP");
     }

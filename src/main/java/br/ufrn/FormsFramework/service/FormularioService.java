@@ -241,66 +241,13 @@ public class FormularioService {
 
     @Transactional
     public Map<String, String> getFeedbackLLM(Long idFormulario) {
-         Formulario formulario = this.getById(idFormulario);
-         return feedbackLLM.gerarRespostaLLM(formulario);   
-    }
+        Formulario formulario = this.getById(idFormulario);
 
-    // @Transactional
-    // public Map<String, String> getFeedbackLLM(Long idFormulario) {
-    //     String prompt = 
-    //     "Com base no seguinte JSON, que corresponde a um prontuário de um paciente, faça um diagnóstico do paciente. " + 
-    //     "Você não precisa se ater a divisão de seções e quesitos, apenas faça um diagnóstico geral do paciente. " +
-    //     "Seu diagnóstico será avaliado por um médico especialista, que pode ou não concordar com o diagnóstico gerado. " +
-    //     "Portanto, pode dar sugestões de exames, tratamentos, ou qualquer outra informação que julgar relevante. " +
-    //     "Pode assumir que o paciente é real, e que você está fazendo um diagnóstico real.\n" + 
-    //     "Sua mensagem será mostrada ao usuário, deve ser transparente para ele que você está lendo as informações " +
-    //     "de um JSON. Para ele deve ser apenas uma sugestão de diagnóstico.\n" +
-    //     "Além disso, escreva sua resposta como plain text. Não use formatação, nem imagens.\n\n";
-
-    //     Formulario formulario = this.getById(idFormulario);
-    //     prompt += toJson(formulario);
-
-    //     Map<String, String> respostas = new HashMap<>();
-    //     LLMResponse response = llmService.getRespostaFromPrompt(prompt);
-    //     respostas.put("content", response.choices().get(0).message().content());
-
-    //     formulario.setFeedbackLLM(respostas.get("content"));
-    //     this.update(idFormulario, formulario);
+        Map<String, String> respostas = feedbackLLM.gerarRespostaLLM(formulario);
         
-    //     return respostas;
-    // }
+        this.update(idFormulario, formulario);
 
-    private String toJson(Formulario formulario) {
-        StringBuilder json = new StringBuilder("{\n");
-
-        json.append("\t\"nome\": \"").append(formulario.getNome()).append("\",\n");
-        json.append("\t\"descricao\": \"").append(formulario.getDescricao()).append("\",\n");
-        json.append("\t\"secoes\": [\n");
-
-        for (Secao secao : formulario.getSecoes()) {
-            json.append("\t\t{\n");
-            json.append("\t\t\t\"nome\": \"").append(secao.getTitulo()).append("\",\n");
-            json.append("\t\t\t\"quesitos\": [\n");
-
-            for (Quesito quesito : secao.getQuesitos()) {
-                json.append("\t\t\t\t{\n");
-                json.append("\t\t\t\t\t\"nome\": \"").append(quesito.getEnunciado()).append("\",\n");
-                if(quesito.getResposta() != null) {
-                    json.append("\t\t\t\t\t\"resposta\": \"").append(quesito.getResposta().getConteudo()).append("\"\n");
-                } else {
-                    json.append("\t\t\t\t\t\"resposta\": \"\"\n");
-                }
-                json.append("\t\t\t\t},\n");
-            }
-
-            json.append("\t\t\t]\n");
-            json.append("\t\t},\n");
-        }
-
-        json.append("\t]\n");
-        json.append("}");
-
-        return json.toString();
+        return respostas;   
     }
 
     @Transactional
