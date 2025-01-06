@@ -1,4 +1,4 @@
-package br.ufrn.instancies.GRAB;
+package br.ufrn.instancies.JUMP.service;
 
 import java.util.Map;
 
@@ -8,9 +8,9 @@ import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.service.FeedbackLLM;
 
 @Component
-public class RecomendacaoLLMGrab implements FeedbackLLM {
+public class SugestaoLLMJump implements FeedbackLLM {
     public Map<String, String> gerarRespostaLLM(Formulario formulario) {
-        return Map.of("content", "GRAB");
+        return Map.of("content", "JUMP");
     }
 
     public String gerarPrompt(Formulario formulario) {

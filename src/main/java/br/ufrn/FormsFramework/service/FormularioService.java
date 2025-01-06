@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.FormsFramework.exception.EntityNotFoundException;
+import br.ufrn.FormsFramework.exception.EstatisticasLLMException;
 import br.ufrn.FormsFramework.exception.FeedbackNotInFormularioException;
 import br.ufrn.FormsFramework.exception.FormularioInconsistenteException;
+import br.ufrn.FormsFramework.exception.FormularioInstanciaException;
 import br.ufrn.FormsFramework.exception.FormularioNotTemplateException;
 import br.ufrn.FormsFramework.exception.FormularioPoorlyAnsweredException;
 import br.ufrn.FormsFramework.exception.FormularioTemplateException;
@@ -60,6 +62,9 @@ public class FormularioService {
 
     @Autowired
     private FeedbackLLM feedbackLLM;
+
+    @Autowired
+    private EstatisticasLLM estatisticasLLM;
     
     @Transactional
     public Formulario create(Formulario formulario) {
@@ -180,8 +185,7 @@ public class FormularioService {
         formularioDuplicado.setDescricao(formularioToDuplicate.getDescricao());
         formularioDuplicado.setEhPublico(formularioToDuplicate.getEhPublico());
         formularioDuplicado.setEhTemplate(formularioToDuplicate.getEhTemplate());
-        formularioDuplicado.setUsuario(novoUsuario);
-
+        
         Map<Opcao, Opcao> opcoesDuplicadas = new HashMap<Opcao, Opcao>();
         for (Secao secao : formularioToDuplicate.getSecoes()) {
             Pair<Secao, Map<Opcao, Opcao>> pairSecaoMapa = secaoService.duplicar(opcoesDuplicadas, secao);
@@ -192,6 +196,9 @@ public class FormularioService {
             formularioDuplicado.getSecoes().add(novaSecao);
         }
 
+        formularioDuplicado.setUsuario(novoUsuario);
+        novoUsuario.getFormularios().add(formularioDuplicado);
+        
         return formularioRepository.save(formularioDuplicado);
     }
     
@@ -451,7 +458,73 @@ public class FormularioService {
             throw new FormularioPoorlyAnsweredException(erros.toString());
         }
 
+        formulario.setRespondido(true);
+        formularioRepository.save(formulario);
         return formulario;
+    }
+
+    public Formulario instanciarFormulario(Long idFormulario, Long idUsuario) {
+        Formulario formulario = this.getById(idFormulario);
+
+        StringBuilder erros = new StringBuilder("");
+        if(!formulario.getFinalizado()) {
+            // Tentativa de instanciar um formulário não finalizado
+            erros.append("O formulário não está finalizado.\n");
+        }
+
+        if(formulario.getFormularioPai() != null) {
+            erros.append("O formulário já é uma instância.\n");
+        }
+
+        if(!formulario.getEhTemplate()) {
+            // Tentativa de instanciar um formulário não instanciável
+            erros.append("O formulário não é um template.\n");
+        }
+
+        if (erros.length() > 0) {
+            throw new FormularioInstanciaException(erros.toString());
+        }
+
+        Formulario formularioInstanciado = this.duplicar(idFormulario, idUsuario);
+        formularioInstanciado.setEhTemplate(false);
+        formularioInstanciado.setFormularioPai(formulario);
+        formulario.getInstanciasFormulario().add(formularioInstanciado);
+        formularioRepository.save(formulario);
+
+        return formularioInstanciado;
+    }
+
+    public Map<String, String> gerarEstatisticasLLM(Long idFormulario) {
+        Formulario formulario = this.getById(idFormulario);
+
+        StringBuilder erros = new StringBuilder("");
+        if(!formulario.getFinalizado()) {
+            // Tentativa de instanciar um formulário não finalizado
+            erros.append("O formulário não está finalizado.\n");
+        }
+
+        if(formulario.getFormularioPai() != null || !formulario.getEhTemplate()) {
+            erros.append("Não é possível gerar estatísticas de uma instância de formulário.\n");
+        }
+
+        if (erros.length() > 0) {
+            throw new EstatisticasLLMException(erros.toString());
+        }
+
+        List<Formulario> formulariosRespondidos = obterFormulariosRespondidos(formulario);
+
+        return estatisticasLLM.gerarRespostaLLM(formulariosRespondidos);
+
+    }
+
+    private List<Formulario> obterFormulariosRespondidos(Formulario formulario) {
+        List<Formulario> formulariosRespondidos = new ArrayList<Formulario>();
+        for (Formulario instancia : formulario.getInstanciasFormulario()) {
+            if(instancia.getRespondido()) {
+                formulariosRespondidos.add(instancia);
+            }
+        }
+        return formulariosRespondidos;
     }
 
     private StringBuilder verificaFormularioSemSecao(Formulario formulario, StringBuilder erros) {

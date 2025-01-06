@@ -7,11 +7,14 @@ public record FormularioOutput(
     String nome, 
     String descricao, 
     Boolean finalizado, 
+    Boolean respondido,
     Boolean ehPublico,
     Boolean ehTemplate,
     Long usuarioId,
     List<Long> secoesIds,
     List<Long> feedbacksIds,
-    String feedbackLLM
+    String feedbackLLM,
+    List<Long> instanciasFormularioIds,
+    Long formularioPaiId
     )
 {}
