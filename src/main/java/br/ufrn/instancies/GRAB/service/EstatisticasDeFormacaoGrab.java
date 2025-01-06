@@ -9,7 +9,7 @@ import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.service.EstatisticasLLM;
 
 @Component
-public class EstatisticasDeFormacaoGrab implements EstatisticasLLM {
+public class EstatisticasDeFormacaoGrab extends EstatisticasLLM {
     
     public Map<String, String> gerarRespostaLLM(List<Formulario> formularios) {
         return Map.of("content", "GRAB");
