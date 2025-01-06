@@ -1,6 +1,6 @@
-package br.ufrn.FormsFramework.mapper.llm;
+package br.ufrn.instancies.DASH.mapper.llm;
 
-public record LLMUsage(
+public record GroqLLMUsage(
     double queue_time,
     int prompt_tokens,
     double prompt_time,
