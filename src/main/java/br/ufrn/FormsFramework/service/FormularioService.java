@@ -28,8 +28,12 @@ import br.ufrn.FormsFramework.model.Quesito;
 import br.ufrn.FormsFramework.model.Resposta;
 import br.ufrn.FormsFramework.model.Secao;
 import br.ufrn.FormsFramework.model.Usuario;
+import br.ufrn.FormsFramework.model.interfaces.IInformacoesArquivo;
 import br.ufrn.FormsFramework.model.interfaces.Item;
 import br.ufrn.FormsFramework.repository.FormularioRepository;
+import br.ufrn.FormsFramework.service.interfaces.FeedbackLLM;
+import br.ufrn.FormsFramework.service.interfaces.GeracaoArquivo;
+import br.ufrn.FormsFramework.service.interfaces.EstatisticasLLM;
 import br.ufrn.FormsFramework.utils.Pair;
 import jakarta.transaction.Transactional;
 
@@ -65,6 +69,9 @@ public class FormularioService {
 
     @Autowired
     private EstatisticasLLM estatisticasLLM;
+
+    @Autowired
+    private GeracaoArquivo geracaoArquivo;
     
     @Transactional
     public Formulario create(Formulario formulario) {
@@ -296,6 +303,11 @@ public class FormularioService {
         } 
 
         return feedbackToReturn;
+    }
+
+    public <T extends IInformacoesArquivo> T gerarInformacoesArquivo(Long idFormulario) {
+        Formulario formulario = this.getById(idFormulario);
+        return geracaoArquivo.montarArquivo(formulario);
     }
     
     private List<Opcao> getOpcoesMarcadas(Formulario formulario) {
