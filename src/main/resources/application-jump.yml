@@ -1,0 +1,4 @@
+llm:
+    model: ${JUMP_LLM_MODEL}
+    api-key: ${JUMP_LLM_API_KEY}
+    api-url: ${JUMP_LLM_API_URL}

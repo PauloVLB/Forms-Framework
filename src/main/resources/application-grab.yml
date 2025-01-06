@@ -1,0 +1,4 @@
+llm:
+    model: ${GRAB_LLM_MODEL}
+    api-key: ${GRAB_LLM_API_KEY}
+    api-url: ${GRAB_LLM_API_URL}

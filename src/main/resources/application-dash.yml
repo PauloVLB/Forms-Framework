@@ -1,0 +1,4 @@
+llm:
+    model: ${DASH_LLM_MODEL}
+    api-key: ${DASH_LLM_API_KEY}
+    api-url: ${DASH_LLM_API_URL}
