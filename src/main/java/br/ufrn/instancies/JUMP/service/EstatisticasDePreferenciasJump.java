@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import br.ufrn.FormsFramework.model.Formulario;
-import br.ufrn.FormsFramework.service.EstatisticasLLM;
+import br.ufrn.FormsFramework.service.interfaces.EstatisticasLLM;
 
 @Component
 public class EstatisticasDePreferenciasJump implements EstatisticasLLM {

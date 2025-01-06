@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.model.Quesito;
 import br.ufrn.FormsFramework.model.Secao;
-import br.ufrn.FormsFramework.service.FeedbackLLM;
+import br.ufrn.FormsFramework.service.interfaces.FeedbackLLM;
 import br.ufrn.instancies.DASH.mapper.llm.GroqLLMResponse;
 
 @Component

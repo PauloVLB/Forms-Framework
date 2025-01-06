@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.FormsFramework.mapper.interfaces.ILLMResponse;
-import br.ufrn.FormsFramework.service.LLMService;
+import br.ufrn.FormsFramework.service.interfaces.LLMService;
 import br.ufrn.instancies.DASH.mapper.llm.GroqLLMMessage;
 import br.ufrn.instancies.DASH.mapper.llm.GroqLLMRequest;
 import br.ufrn.instancies.DASH.mapper.llm.GroqLLMResponse;
