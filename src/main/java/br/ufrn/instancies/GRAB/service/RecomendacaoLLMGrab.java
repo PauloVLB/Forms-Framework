@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import br.ufrn.FormsFramework.model.Formulario;
-import br.ufrn.FormsFramework.service.FeedbackLLM;
+import br.ufrn.FormsFramework.service.interfaces.FeedbackLLM;
 
 @Component
 public class RecomendacaoLLMGrab extends FeedbackLLM {

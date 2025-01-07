@@ -1,4 +1,4 @@
-package br.ufrn.FormsFramework.service;
+package br.ufrn.FormsFramework.service.interfaces;
 
 import java.util.List;
 import java.util.Map;

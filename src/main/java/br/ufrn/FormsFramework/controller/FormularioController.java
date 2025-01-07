@@ -35,17 +35,18 @@ import br.ufrn.FormsFramework.model.Feedback;
 import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.model.Resposta;
 import br.ufrn.FormsFramework.model.Secao;
+import br.ufrn.FormsFramework.model.interfaces.IInformacoesArquivo;
 import br.ufrn.FormsFramework.service.FormularioService;
 
 @RestController
 @RequestMapping("/formulario")
-public class FormularioController {
+public abstract class FormularioController {
 
     @Autowired
-    private FormularioService formularioService;
+    protected FormularioService formularioService;
 
     @Autowired
-    private FormularioMapper formularioMapper;
+    protected FormularioMapper formularioMapper;
 
     @Autowired
     private SecaoMapper secaoMapper;
@@ -212,4 +213,7 @@ public class FormularioController {
         Map<String, String> response = formularioService.gerarEstatisticasLLM(idFormulario);
         return new ResponseEntity<Map<String, String>>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/{idFormulario}/informacoesArquivo")
+    public abstract <T extends IInformacoesArquivo> ResponseEntity<T> gerarArquivo(@PathVariable Long idFormulario);
 }

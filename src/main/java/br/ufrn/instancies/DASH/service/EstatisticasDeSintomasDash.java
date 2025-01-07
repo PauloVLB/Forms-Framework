@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.model.Quesito;
 import br.ufrn.FormsFramework.model.Secao;
-import br.ufrn.FormsFramework.service.EstatisticasLLM;
 import br.ufrn.instancies.DASH.mapper.llm.GroqLLMResponse;
+import br.ufrn.FormsFramework.service.interfaces.EstatisticasLLM;
 
 @Component
 public class EstatisticasDeSintomasDash extends EstatisticasLLM {

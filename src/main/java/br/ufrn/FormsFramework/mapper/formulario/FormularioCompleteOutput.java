@@ -3,6 +3,7 @@ package br.ufrn.FormsFramework.mapper.formulario;
 import java.util.List;
 
 import br.ufrn.FormsFramework.mapper.secao.SecaoCompleteOutput;
+import br.ufrn.FormsFramework.model.interfaces.IInformacoesArquivo;
 
 public record FormularioCompleteOutput(
     Long id,    
@@ -14,5 +15,5 @@ public record FormularioCompleteOutput(
     Long usuarioId,
     List<SecaoCompleteOutput> secoes,
     String feedbackLLM
-    )
+    ) implements IInformacoesArquivo
 {}
