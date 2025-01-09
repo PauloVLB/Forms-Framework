@@ -238,10 +238,10 @@ public class FormularioService {
     }
 
     @Transactional
-    public Formulario addFormularioFromTemplate(Long idTemplate) {
+    public Formulario addFormularioFromTemplate(Long idTemplate, Long idUsuario) {
         Formulario formularioTemplate = this.getById(idTemplate);
         if(!formularioTemplate.getEhTemplate()) throw new FormularioNotTemplateException(idTemplate);
-        Formulario formularioCriado = this.duplicar(formularioTemplate.getId(), null);
+        Formulario formularioCriado = this.duplicar(formularioTemplate.getId(), idUsuario);
         formularioCriado.setEhTemplate(false);
         return formularioRepository.save(formularioCriado);
     }

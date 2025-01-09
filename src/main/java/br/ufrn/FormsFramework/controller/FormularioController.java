@@ -152,9 +152,9 @@ public abstract class FormularioController {
         return new ResponseEntity<RespostaOutput>(respostaOutput, HttpStatus.CREATED);                    
     }
 
-    @PostMapping("/template/{idTemplate}/addFormulario")
-    public ResponseEntity<FormularioOutput> addFormularioFromTemplate(@PathVariable Long idTemplate) {
-        Formulario formularioCriado = formularioService.addFormularioFromTemplate(idTemplate);
+    @PostMapping("/template/{idTemplate}/addFormulario/{idUsuario}")
+    public ResponseEntity<FormularioOutput> addFormularioFromTemplate(@PathVariable Long idTemplate, @PathVariable Long idUsuario) {
+        Formulario formularioCriado = formularioService.addFormularioFromTemplate(idTemplate, idUsuario);
         FormularioOutput formularioOutput = formularioMapper.toFormularioOutput(formularioCriado);
         return new ResponseEntity<FormularioOutput>(formularioOutput, HttpStatus.CREATED);
     }
