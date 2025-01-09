@@ -34,12 +34,14 @@ public interface RespostaMapper {
     
     @Mapping(target = "conteudo")
     @Mapping(target = "id")
+    @Mapping(target = "tipoResposta", source = "resposta.quesito.tipoResposta")
     @Mapping(target = "opcoesMarcadasIds", source = "opcoesMarcadas", qualifiedByName = "opcoesToIds")
     @Mapping(target = "idQuesito", source = "quesito.id")
     RespostaOutput toRespostaOutput(Resposta resposta);
     
     @Mapping(target = "id")
     @Mapping(target = "conteudo")
+    @Mapping(target = "tipoResposta", source = "resposta.quesito.tipoResposta")
     @Mapping(target = "opcoesMarcadas", source = "opcoesMarcadas")
     @Mapping(target = "idQuesito", source = "quesito.id")
     RespostaCompleteOutput toRespostaCompleteOutput(Resposta resposta);
