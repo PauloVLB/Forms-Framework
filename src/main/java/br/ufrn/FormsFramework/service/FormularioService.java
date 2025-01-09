@@ -206,6 +206,7 @@ public class FormularioService {
         formularioDuplicado.setUsuario(novoUsuario);
         novoUsuario.getFormularios().add(formularioDuplicado);
         
+        formularioDuplicado.setInstanciasFormulario(new ArrayList<Formulario>());
         return formularioRepository.save(formularioDuplicado);
     }
     
