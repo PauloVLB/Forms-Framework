@@ -445,6 +445,7 @@ public class FormularioService {
         }
 
         Formulario formularioInstanciado = this.duplicar(idFormulario, idUsuario);
+        formularioInstanciado.setNome(formulario.getNome());
         formularioInstanciado.setEhTemplate(false);
         formularioInstanciado.setFormularioPai(formulario);
         formulario.getInstanciasFormulario().add(formularioInstanciado);
