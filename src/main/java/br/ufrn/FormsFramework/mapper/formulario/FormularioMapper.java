@@ -89,9 +89,12 @@ public interface FormularioMapper {
     @Mapping(target = "ehPublico")
     @Mapping(target = "ehTemplate")
     @Mapping(target = "finalizado")
+    @Mapping(target = "respondido")
     @Mapping(target = "id")
     @Mapping(target = "usuarioId", source = "usuario.id")
     @Mapping(target = "secoes", source = "secoes")
+    @Mapping(target = "instanciasFormularioIds", source = "instanciasFormulario", qualifiedByName = "instanciasFormularioToIds")
+    @Mapping(target = "formularioPaiId", source = "formularioPai.id")
     FormularioCompleteOutput toFormularioCompleteOutput(Formulario formulario);
     
     default List<SecaoCompleteOutput> toSecoesCompleteOutput(List<Secao> secoes) {
