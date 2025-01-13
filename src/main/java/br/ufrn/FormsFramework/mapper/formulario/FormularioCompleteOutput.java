@@ -10,10 +10,13 @@ public record FormularioCompleteOutput(
     String nome, 
     String descricao, 
     Boolean finalizado, 
+    Boolean respondido,
     Boolean ehPublico,
     Boolean ehTemplate,
     Long usuarioId,
     List<SecaoCompleteOutput> secoes,
-    String feedbackLLM
+    String feedbackLLM,
+    List<Long> instanciasFormularioIds,
+    Long formularioPaiId
     ) implements IInformacoesArquivo
 {}

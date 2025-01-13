@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import br.ufrn.FormsFramework.model.enums.TipoUsuario;
 import br.ufrn.FormsFramework.model.interfaces.GenericEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,6 @@ public class Usuario implements GenericEntity{
 
     private TipoUsuario tipoUsuario;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Formulario> formularios = new ArrayList<Formulario>();
 }

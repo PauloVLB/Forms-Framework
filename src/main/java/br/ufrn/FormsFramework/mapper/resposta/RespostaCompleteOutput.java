@@ -3,10 +3,12 @@ package br.ufrn.FormsFramework.mapper.resposta;
 import java.util.List;
 
 import br.ufrn.FormsFramework.mapper.opcao.OpcaoCompleteOutput;
+import br.ufrn.FormsFramework.model.enums.TipoResposta;
 
 public record RespostaCompleteOutput(
     Long id,
     List<String>conteudo,
     List<OpcaoCompleteOutput> opcoesMarcadas,
-    Long idQuesito)
+    Long idQuesito,
+    TipoResposta tipoResposta)
 {}

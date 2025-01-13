@@ -206,6 +206,7 @@ public class FormularioService {
         formularioDuplicado.setUsuario(novoUsuario);
         novoUsuario.getFormularios().add(formularioDuplicado);
         
+        formularioDuplicado.setInstanciasFormulario(new ArrayList<Formulario>());
         return formularioRepository.save(formularioDuplicado);
     }
     
@@ -238,11 +239,10 @@ public class FormularioService {
     }
 
     @Transactional
-    public Formulario addFormularioFromTemplate(Long idTemplate) {
+    public Formulario addFormularioFromTemplate(Long idTemplate, Long idUsuario) {
         Formulario formularioTemplate = this.getById(idTemplate);
         if(!formularioTemplate.getEhTemplate()) throw new FormularioNotTemplateException(idTemplate);
-        Formulario formularioCriado = this.duplicar(formularioTemplate.getId(), null);
-        formularioCriado.setEhTemplate(false);
+        Formulario formularioCriado = this.duplicar(formularioTemplate.getId(), idUsuario);
         return formularioRepository.save(formularioCriado);
     }
 
@@ -445,6 +445,7 @@ public class FormularioService {
         }
 
         Formulario formularioInstanciado = this.duplicar(idFormulario, idUsuario);
+        formularioInstanciado.setNome(formulario.getNome());
         formularioInstanciado.setEhTemplate(false);
         formularioInstanciado.setFormularioPai(formulario);
         formulario.getInstanciasFormulario().add(formularioInstanciado);

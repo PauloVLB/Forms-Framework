@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.FormsFramework.exception.EntityNotFoundException;
+import br.ufrn.FormsFramework.model.Formulario;
 import br.ufrn.FormsFramework.model.Usuario;
 import br.ufrn.FormsFramework.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -53,4 +54,19 @@ public class UsuarioService {
     public void deleteAll() {
         usuarioRepository.deleteAll();
     }
+
+    @Transactional
+    public Formulario createFormulario(Long idUsuario, Formulario formulario) {
+        Usuario usuario = this.getById(idUsuario);
+        usuario.getFormularios().add(formulario);
+        formulario.setUsuario(usuario);
+        usuarioRepository.save(usuario);
+        return usuario.getFormularios().get(usuario.getFormularios().size() - 1);
+    }
+
+    public List<Formulario> getFormularios(Long idUsuario) {
+        Usuario usuario = this.getById(idUsuario);
+        return usuario.getFormularios();
+    }
+
 }
