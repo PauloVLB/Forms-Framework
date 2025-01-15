@@ -22,7 +22,6 @@ public class EstatisticasDeFormacaoGrab extends EstatisticasLLM {
         Map<String, String> respostas = new HashMap<>();
         OpenAILLMResponse response = (OpenAILLMResponse) llmService.getRespostaFromPrompt(prompt);
         respostas.put("content", response.choices().get(0).message().content());
-        respostas.put("content", "Resposta do modelo de linguagem");
         
         return respostas;
     }
