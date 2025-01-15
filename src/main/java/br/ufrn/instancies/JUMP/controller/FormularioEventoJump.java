@@ -7,16 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import br.ufrn.FormsFramework.controller.FormularioController;
-import br.ufrn.FormsFramework.mapper.formulario.FormularioCompleteOutput;
-import br.ufrn.FormsFramework.model.Formulario;
+import br.ufrn.instancies.JUMP.mapper.arquivo.InfoIngresso;
 @Controller
 public class FormularioEventoJump extends FormularioController {
 
     @Override
     @GetMapping("/{idFormulario}/informacoesArquivo")
-    public ResponseEntity<FormularioCompleteOutput> gerarArquivo(@PathVariable Long idFormulario) {
-        Formulario formulario = formularioService.getById(idFormulario, true);
-        FormularioCompleteOutput formularioOutput = formularioMapper.toFormularioCompleteOutput(formulario);
-        return new ResponseEntity<FormularioCompleteOutput>(formularioOutput, HttpStatus.OK);
+    public ResponseEntity<InfoIngresso> gerarArquivo(@PathVariable Long idFormulario) {
+        InfoIngresso infoIngresso = formularioService.gerarInformacoesArquivo(idFormulario);
+        return new ResponseEntity<InfoIngresso>(infoIngresso, HttpStatus.OK);
     }
 }
