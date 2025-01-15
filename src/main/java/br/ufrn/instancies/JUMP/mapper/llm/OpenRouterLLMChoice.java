@@ -4,6 +4,6 @@ public record OpenRouterLLMChoice(
     String logprobs,
     String finish_reason,
     Long index,
-    OpenRouterLLMMessage message
+    OpenRouterLLMMessageResponse message
 ) 
 {}

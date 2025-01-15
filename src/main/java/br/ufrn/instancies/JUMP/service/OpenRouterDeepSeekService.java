@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufrn.FormsFramework.mapper.interfaces.ILLMResponse;
 import br.ufrn.FormsFramework.service.interfaces.LLMService;
-import br.ufrn.instancies.JUMP.mapper.llm.OpenRouterLLMMessage;
+import br.ufrn.instancies.JUMP.mapper.llm.OpenRouterLLMMessageRequest;
 import br.ufrn.instancies.JUMP.mapper.llm.OpenRouterLLMRequest;
 import br.ufrn.instancies.JUMP.mapper.llm.OpenRouterLLMResponse;
 
@@ -15,7 +15,7 @@ public class OpenRouterDeepSeekService extends LLMService {
 
     @Override
     public ILLMResponse getRespostaFromPrompt(String prompt) {
-        OpenRouterLLMMessage message = new OpenRouterLLMMessage("user", prompt, "");
+        OpenRouterLLMMessageRequest message = new OpenRouterLLMMessageRequest("user", prompt);
         OpenRouterLLMRequest request = new OpenRouterLLMRequest(List.of(message), model, 1);
 
         OpenRouterLLMResponse response = restTemplate.postForObject(apiUrl, request, OpenRouterLLMResponse.class);
