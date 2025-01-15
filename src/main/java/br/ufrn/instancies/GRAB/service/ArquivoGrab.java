@@ -10,6 +10,6 @@ import br.ufrn.FormsFramework.service.interfaces.GeracaoArquivo;
 public class ArquivoGrab implements GeracaoArquivo  {
     @Override
     public FormularioCompleteOutput montarArquivo(Formulario formulario) {
-        return null;
+        throw new UnsupportedOperationException("Geração de Arquivo não é suportada.");
     }
 }

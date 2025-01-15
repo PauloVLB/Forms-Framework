@@ -5,7 +5,8 @@ public enum TipoResposta {
     DISSERTATIVA_CURTA("Dissertativa Curta"),
     OBJETIVA_SIMPLES("Objetiva Simples"),
     OBJETIVA_MULTIPLA("Objetiva Múltipla"),
-    DATA("Data"),;
+    DATA("Data"),
+    ARQUIVO("Arquivo");
 
     private String descricao;
 

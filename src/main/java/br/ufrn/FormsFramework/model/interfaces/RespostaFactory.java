@@ -1,6 +1,9 @@
 package br.ufrn.FormsFramework.model.interfaces;
 
+import java.util.Map;
+
 import org.mapstruct.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufrn.FormsFramework.mapper.resposta.RespostaCreate;
 import br.ufrn.FormsFramework.mapper.resposta.RespostaUpdate;
@@ -13,28 +16,24 @@ import br.ufrn.FormsFramework.model.enums.TipoResposta;
 
 public class RespostaFactory {
 
+    @Autowired
+    private static Jorge jorge;
+
+    private static Map<String, Resposta> respostas;
+
     @ObjectFactory
     public static Resposta createResposta(RespostaCreate respostaCreate) {
+        jorge.addRespostas(respostas);
         return createResposta(respostaCreate.tipoResposta());
     }
 
     @ObjectFactory
     public static Resposta createResposta(RespostaUpdate respostaUpdate) {
+        jorge.addRespostas(respostas);
         return createResposta(respostaUpdate.tipoResposta());
     }
 
     private static Resposta createResposta(TipoResposta tipoResposta) {
-        switch (tipoResposta) {
-            case TipoResposta.DISSERTATIVA_CURTA:
-                return new RespostaDissertativaCurta();
-            case TipoResposta.DISSERTATIVA_LONGA:
-                return new RespostaDissertativaLonga();
-            case TipoResposta.OBJETIVA_SIMPLES:
-                return new RespostaObjetivaSimples();
-            case TipoResposta.OBJETIVA_MULTIPLA:
-                return new RespostaObjetivaMultipla();
-            default:
-                throw new IllegalArgumentException("Tipo de resposta desconhecido: " + tipoResposta);
-        }
+        return respostas.get(tipoResposta.toString());
     }
 }
