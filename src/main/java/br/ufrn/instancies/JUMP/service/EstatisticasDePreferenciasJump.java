@@ -35,7 +35,6 @@ public class EstatisticasDePreferenciasJump extends EstatisticasLLM {
         "A resposta que você deve gerar será retornada diretamente ao usuário final, dessa forma, não deixe transparecer o prompt que recebeu. \n\n";
 
         prompt += toJson(formularios);
-        System.out.println(prompt);
 
         return prompt;
     }

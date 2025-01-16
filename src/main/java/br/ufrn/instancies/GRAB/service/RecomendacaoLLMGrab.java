@@ -14,11 +14,12 @@ public class RecomendacaoLLMGrab extends FeedbackLLM{
     public Map<String, String> gerarRespostaLLM(Formulario formulario){
         String prompt = gerarPrompt(formulario);
 
-         Map<String, String> resposta = new HashMap<>();
-         OpenAILLMResponse response = (OpenAILLMResponse) llmService.getRespostaFromPrompt(prompt);
-         resposta.put("content", response.choices().get(0).message().content());
+        Map<String, String> resposta = new HashMap<>();
+        OpenAILLMResponse response = (OpenAILLMResponse) llmService.getRespostaFromPrompt(prompt);
+        resposta.put("content", response.choices().get(0).message().content());
 
-         return resposta;
+        formulario.setFeedbackLLM(resposta.get("content"));
+        return resposta;
     }
     public String gerarPrompt(Formulario formulario){
         String prompt = 
