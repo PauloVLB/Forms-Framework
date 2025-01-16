@@ -9,16 +9,15 @@ import br.ufrn.FormsFramework.model.RespostaDissertativaCurta;
 import br.ufrn.FormsFramework.model.RespostaDissertativaLonga;
 import br.ufrn.FormsFramework.model.RespostaObjetivaMultipla;
 import br.ufrn.FormsFramework.model.RespostaObjetivaSimples;
-import br.ufrn.FormsFramework.model.enums.TipoResposta;
 
 @Component
 public abstract class RespostaAdder {
 
     public void addRespostas(Map<String, Resposta> respostas) {
-        respostas.put(TipoResposta.DISSERTATIVA_CURTA.toString(), new RespostaDissertativaCurta());
-        respostas.put(TipoResposta.DISSERTATIVA_LONGA.toString(), new RespostaDissertativaLonga());
-        respostas.put(TipoResposta.OBJETIVA_MULTIPLA.toString(), new RespostaObjetivaMultipla());
-        respostas.put(TipoResposta.OBJETIVA_SIMPLES.toString(), new RespostaObjetivaSimples());
+        respostas.put("DISSERTATIVA_CURTA", new RespostaDissertativaCurta());
+        respostas.put("DISSERTATIVA_LONGA", new RespostaDissertativaLonga());
+        respostas.put("OBJETIVA_MULTIPLA", new RespostaObjetivaMultipla());
+        respostas.put("OBJETIVA_SIMPLES", new RespostaObjetivaSimples());
         
         addRespostasExtras(respostas);
     }

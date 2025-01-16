@@ -1,9 +1,8 @@
 package br.ufrn.FormsFramework.model;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import br.ufrn.FormsFramework.model.enums.TipoResposta;
 import br.ufrn.FormsFramework.model.interfaces.GenericEntity;
 import br.ufrn.FormsFramework.model.interfaces.Item;
 import br.ufrn.FormsFramework.model.interfaces.ItemUtils;
@@ -36,7 +35,7 @@ public class Quesito implements GenericEntity, Item{
     private Boolean obrigatorio;
     private Integer ordem;
     private Integer nivel;
-    private TipoResposta tipoResposta;
+    private String tipoResposta;
 
     @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "quesito")
     private Resposta resposta;

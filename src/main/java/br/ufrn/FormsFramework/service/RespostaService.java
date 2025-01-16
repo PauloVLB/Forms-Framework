@@ -11,7 +11,6 @@ import br.ufrn.FormsFramework.exception.RespostaAndOpcaoIncompatibleException;
 import br.ufrn.FormsFramework.exception.RespostaFullOfOpcaoException;
 import br.ufrn.FormsFramework.model.Opcao;
 import br.ufrn.FormsFramework.model.Resposta;
-import br.ufrn.FormsFramework.model.enums.TipoResposta;
 import br.ufrn.FormsFramework.repository.RespostaRepository;
 import jakarta.transaction.Transactional;
 
@@ -67,9 +66,9 @@ public class RespostaService {
         if(resposta.getQuesito() != opcao.getQuesito()){
             throw new RespostaAndOpcaoIncompatibleException(idResposta, idOpcao);
         }
-        if(resposta.getQuesito().getTipoResposta() == TipoResposta.OBJETIVA_SIMPLES && resposta.getOpcoesMarcadas().isEmpty()){
+        if(resposta.getQuesito().getTipoResposta() == "OBJETIVA_SIMPLES" && resposta.getOpcoesMarcadas().isEmpty()){
             resposta.getOpcoesMarcadas().add(opcao);
-        } else if(resposta.getQuesito().getTipoResposta() == TipoResposta.OBJETIVA_MULTIPLA){
+        } else if(resposta.getQuesito().getTipoResposta() == "OBJETIVA_MULTIPLA"){
             if(resposta.getOpcoesMarcadas().contains(opcao)){
                 throw new OpcaoMarcadaAlreadyInRespostaException(idResposta, idOpcao);
             }else{
@@ -89,8 +88,8 @@ public class RespostaService {
         Resposta resposta = this.getById(idResposta);
         List<Opcao> opcoes = opcaoService.getAllByIds(idsOpcoes);
 
-        if(resposta.getQuesito().getTipoResposta() != TipoResposta.OBJETIVA_SIMPLES && 
-            resposta.getQuesito().getTipoResposta() != TipoResposta.OBJETIVA_MULTIPLA){
+        if(resposta.getQuesito().getTipoResposta() != "OBJETIVA_SIMPLES" && 
+            resposta.getQuesito().getTipoResposta() != "OBJETIVA_MULTIPLA"){
             throw new RespostaFullOfOpcaoException(idResposta);
         } 
 

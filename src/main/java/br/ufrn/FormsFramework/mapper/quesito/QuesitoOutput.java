@@ -2,15 +2,13 @@ package br.ufrn.FormsFramework.mapper.quesito;
 
 import java.util.List;
 
-import br.ufrn.FormsFramework.model.enums.TipoResposta;
-
 public record QuesitoOutput(
     Long id,
     String enunciado,
     Boolean obrigatorio,
     Integer ordem,
     Integer nivel,
-    TipoResposta tipoResposta,
+    String tipoResposta,
     Long superQuesitoId,
     Long secaoId,
     Long respostaId,

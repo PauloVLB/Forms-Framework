@@ -1,19 +1,18 @@
 package br.ufrn.FormsFramework.mapper.resposta;
 
+import static br.ufrn.FormsFramework.model.interfaces.GenericEntityToId.TToIds;
+
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufrn.FormsFramework.mapper.opcao.OpcaoMapper;
 import br.ufrn.FormsFramework.model.Opcao;
 import br.ufrn.FormsFramework.model.Resposta;
 import br.ufrn.FormsFramework.model.interfaces.RespostaFactory;
-
-import static br.ufrn.FormsFramework.model.interfaces.GenericEntityToId.TToIds;
 
 @Mapper(
     componentModel= MappingConstants.ComponentModel.SPRING,

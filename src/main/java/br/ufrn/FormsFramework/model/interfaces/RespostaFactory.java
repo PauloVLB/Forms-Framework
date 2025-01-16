@@ -10,13 +10,12 @@ import org.springframework.stereotype.Component;
 import br.ufrn.FormsFramework.mapper.resposta.RespostaCreate;
 import br.ufrn.FormsFramework.mapper.resposta.RespostaUpdate;
 import br.ufrn.FormsFramework.model.Resposta;
-import br.ufrn.FormsFramework.model.enums.TipoResposta;
 
 @Component
 public class RespostaFactory {
 
     @Autowired
-    private RespostaAdder jorge;
+    private RespostaAdder respostaAdder;
 
     private Map<String, Resposta> respostas;
 
@@ -26,17 +25,17 @@ public class RespostaFactory {
 
     @ObjectFactory
     public Resposta createResposta(RespostaCreate respostaCreate) {
-        jorge.addRespostas(respostas);
+        respostaAdder.addRespostas(respostas);
         return createResposta(respostaCreate.tipoResposta());
     }
 
     @ObjectFactory
     public Resposta createResposta(RespostaUpdate respostaUpdate) {
-        jorge.addRespostas(respostas);
+        respostaAdder.addRespostas(respostas);
         return createResposta(respostaUpdate.tipoResposta());
     }
 
-    private Resposta createResposta(TipoResposta tipoResposta) {
-        return respostas.get(tipoResposta.toString());
+    private Resposta createResposta(String tipoResposta) {
+        return respostas.get(tipoResposta);
     }
 }
