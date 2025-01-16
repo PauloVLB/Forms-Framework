@@ -1,5 +1,7 @@
 package br.ufrn.FormsFramework.mapper.resposta;
 
+import static br.ufrn.FormsFramework.model.interfaces.GenericEntityToId.TToIds;
+
 import java.util.List;
 
 import org.mapstruct.Mapper;
@@ -12,13 +14,13 @@ import br.ufrn.FormsFramework.model.Opcao;
 import br.ufrn.FormsFramework.model.Resposta;
 import br.ufrn.FormsFramework.model.interfaces.RespostaFactory;
 
-import static br.ufrn.FormsFramework.model.interfaces.GenericEntityToId.TToIds;
-
 @Mapper(
     componentModel= MappingConstants.ComponentModel.SPRING,
     uses = {OpcaoMapper.class, RespostaFactory.class}    
 )
 public interface RespostaMapper {
+
+    public RespostaFactory respostaFactory = new RespostaFactory();
 
     @Mapping(target = "conteudo", source = "conteudo")
     @Mapping(target = "id", ignore = true)
@@ -52,12 +54,12 @@ public interface RespostaMapper {
     }
     
     default Resposta mapResposta(RespostaCreate respostaCreate) {
-        Resposta resposta = RespostaFactory.createResposta(respostaCreate);
+        Resposta resposta = respostaFactory.createResposta(respostaCreate);
         return resposta;
     }
 
     default Resposta mapResposta(RespostaUpdate respostaUpdate) {
-        Resposta resposta = RespostaFactory.createResposta(respostaUpdate);
+        Resposta resposta = respostaFactory.createResposta(respostaUpdate);
         return resposta;
     } 
 

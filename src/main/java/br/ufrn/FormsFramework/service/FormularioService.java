@@ -288,7 +288,6 @@ public class FormularioService {
         Formulario formulario = this.getById(idFormulario);
         List<Opcao> opcoesMarcadas = this.getOpcoesMarcadas(formulario);
 
-        System.out.println("1");
         int qntFeedbacks = 0;
         Feedback feedbackToReturn = Feedback.inconclusivo();
         for (Feedback feedback : formulario.getFeedbacks()) {

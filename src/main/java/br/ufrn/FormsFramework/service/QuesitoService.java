@@ -14,7 +14,6 @@ import br.ufrn.FormsFramework.model.Opcao;
 import br.ufrn.FormsFramework.model.Quesito;
 import br.ufrn.FormsFramework.model.Resposta;
 import br.ufrn.FormsFramework.model.Secao;
-import br.ufrn.FormsFramework.model.enums.TipoResposta;
 import br.ufrn.FormsFramework.repository.QuesitoRepository;
 import br.ufrn.FormsFramework.utils.Pair;
 import jakarta.transaction.Transactional;
@@ -200,8 +199,8 @@ public class QuesitoService {
     public StringBuilder verificaQuesitosObjetivosSemOpcao(List<Quesito> listaTodosQuesitos, StringBuilder erros) {
         List<Quesito> quesitosObjetivosSemOpcao = new ArrayList<>();
         for (Quesito quesito : listaTodosQuesitos) {
-            TipoResposta tipoResposta = quesito.getTipoResposta();
-            if ((tipoResposta.equals(TipoResposta.OBJETIVA_SIMPLES) || tipoResposta.equals(TipoResposta.OBJETIVA_SIMPLES))
+            String tipoResposta = quesito.getTipoResposta();
+            if ((tipoResposta.equals("OBJETIVA_SIMPLES") || tipoResposta.equals("OBJETIVA_SIMPLES"))
             && quesito.getOpcoes().isEmpty()) {
                 quesitosObjetivosSemOpcao.add(quesito);
             }
