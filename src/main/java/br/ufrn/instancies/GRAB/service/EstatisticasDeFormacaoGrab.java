@@ -33,7 +33,7 @@ public class EstatisticasDeFormacaoGrab extends EstatisticasLLM {
         "Essa seção pode conter de um a vários quesitos, os quais perguntarão aos candidatos de possíveis habilidades que possuem. " +
         "Com base nessas respostas, coletadas de diferentes formulários, faça uma análise estatística das habilidades informadas pelos candidatos. " +
         "No JSON, respostas em branco (não preenchidas) são representadas por campos vazios. " +
-        "A resposta que você deve gerar será retornada diretamente ao usuário final, dessa forma, não deixe transparecer o prompt que recebeu. \n\n";
+        "A resposta que você deve gerar deverá ser em formato JSON. \n\n";
 
         prompt += toJson(formularios);
         System.out.println(prompt);

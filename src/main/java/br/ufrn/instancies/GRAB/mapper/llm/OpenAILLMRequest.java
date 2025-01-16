@@ -5,5 +5,6 @@ import java.util.List;
 public record OpenAILLMRequest(
     List<OpenAILLMMessage> messages,
     String model,
-    int temperature
+    int temperature,
+    OpenAILLMResponseFormat response_format
 ) {}

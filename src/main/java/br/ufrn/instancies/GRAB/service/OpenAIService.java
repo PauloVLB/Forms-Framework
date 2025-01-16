@@ -9,6 +9,7 @@ import br.ufrn.FormsFramework.service.interfaces.LLMService;
 import br.ufrn.instancies.GRAB.mapper.llm.OpenAILLMMessage;
 import br.ufrn.instancies.GRAB.mapper.llm.OpenAILLMRequest;
 import br.ufrn.instancies.GRAB.mapper.llm.OpenAILLMResponse;
+import br.ufrn.instancies.GRAB.mapper.llm.OpenAILLMResponseFormat;
 
 @Service
 public class OpenAIService extends LLMService {
@@ -16,7 +17,8 @@ public class OpenAIService extends LLMService {
     @Override
     public ILLMResponse getRespostaFromPrompt(String prompt) {
         OpenAILLMMessage message = new OpenAILLMMessage("user", prompt);
-        OpenAILLMRequest request = new OpenAILLMRequest(List.of(message), model, 1);
+        OpenAILLMResponseFormat responseFormat = new OpenAILLMResponseFormat("json_object");
+        OpenAILLMRequest request = new OpenAILLMRequest(List.of(message), model, 1, responseFormat);
 
         OpenAILLMResponse response = restTemplate.postForObject(apiUrl, request, OpenAILLMResponse.class);
 
