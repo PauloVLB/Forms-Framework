@@ -186,7 +186,6 @@ public class QuesitoService {
     }
 
     protected List<Opcao> getOpcoesMarcadas(Quesito quesito) {
-        System.out.println("Quesito: " + quesito.getId() + " - " + quesito.getEnunciado());
         List<Opcao> retorno = quesito.getResposta().getOpcoesMarcadas();
 
         for (Quesito subQuesito : quesito.getSubQuesitos()) {

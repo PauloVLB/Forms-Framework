@@ -36,7 +36,6 @@ public class EstatisticasDeFormacaoGrab extends EstatisticasLLM {
         "A resposta que você deve gerar deverá ser em formato JSON. \n\n";
 
         prompt += toJson(formularios);
-        System.out.println(prompt);
 
         return prompt;
     }

@@ -33,7 +33,6 @@ public class EstatisticasDeSintomasDash extends EstatisticasLLM {
         "No JSON, respostas em branco (não preenchidas) são representadas por campos vazios. \n\n";
 
         prompt += toJson(formularios);
-        System.out.println(prompt);
 
         return prompt;
     }
