@@ -1,17 +1,18 @@
-package br.ufrn.instancies.DASH.model.interfaces;
+package br.ufrn.instancies.GRAB.model.interfaces;
 
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 import br.ufrn.FormsFramework.model.Resposta;
-import br.ufrn.FormsFramework.model.interfaces.Jorge;
+import br.ufrn.FormsFramework.model.interfaces.RespostaAdder;
 
 @Component
-public class JorgeDash extends Jorge {
+public class RespostaAdderGrab extends RespostaAdder {
 
     @Override
     public void addRespostasExtras(Map<String, Resposta> respostas) {
+        
     }
     
 }

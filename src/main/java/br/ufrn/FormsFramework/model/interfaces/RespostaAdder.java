@@ -12,7 +12,7 @@ import br.ufrn.FormsFramework.model.RespostaObjetivaSimples;
 import br.ufrn.FormsFramework.model.enums.TipoResposta;
 
 @Component
-public abstract class Jorge {
+public abstract class RespostaAdder {
 
     public void addRespostas(Map<String, Resposta> respostas) {
         respostas.put(TipoResposta.DISSERTATIVA_CURTA.toString(), new RespostaDissertativaCurta());

@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufrn.FormsFramework.mapper.opcao.OpcaoMapper;
 import br.ufrn.FormsFramework.model.Opcao;
@@ -19,6 +20,8 @@ import static br.ufrn.FormsFramework.model.interfaces.GenericEntityToId.TToIds;
     uses = {OpcaoMapper.class, RespostaFactory.class}    
 )
 public interface RespostaMapper {
+
+    public RespostaFactory respostaFactory = new RespostaFactory();
 
     @Mapping(target = "conteudo", source = "conteudo")
     @Mapping(target = "id", ignore = true)
@@ -52,12 +55,12 @@ public interface RespostaMapper {
     }
     
     default Resposta mapResposta(RespostaCreate respostaCreate) {
-        Resposta resposta = RespostaFactory.createResposta(respostaCreate);
+        Resposta resposta = respostaFactory.createResposta(respostaCreate);
         return resposta;
     }
 
     default Resposta mapResposta(RespostaUpdate respostaUpdate) {
-        Resposta resposta = RespostaFactory.createResposta(respostaUpdate);
+        Resposta resposta = respostaFactory.createResposta(respostaUpdate);
         return resposta;
     } 
 
