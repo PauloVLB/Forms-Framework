@@ -35,6 +35,7 @@ import br.ufrn.FormsFramework.service.interfaces.FeedbackLLM;
 import br.ufrn.FormsFramework.service.interfaces.GeracaoArquivo;
 import br.ufrn.FormsFramework.service.interfaces.EstatisticasLLM;
 import br.ufrn.FormsFramework.utils.Pair;
+import br.ufrn.instancies.GRAB.model.RespostaArquivo;
 import jakarta.transaction.Transactional;
 
 @Service
