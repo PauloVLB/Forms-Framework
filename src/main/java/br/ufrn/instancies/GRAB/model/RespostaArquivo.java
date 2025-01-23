@@ -22,6 +22,7 @@ public class RespostaArquivo extends Resposta {
         }
 
         try {
+            conteudoBase64 = conteudoBase64.split(",")[1];
             byte[] conteudo = Base64.getDecoder().decode(conteudoBase64);
 
             if(conteudo.length > MAX_SIZE) {
