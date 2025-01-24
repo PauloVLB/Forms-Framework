@@ -66,9 +66,9 @@ public class RespostaService {
         if(resposta.getQuesito() != opcao.getQuesito()){
             throw new RespostaAndOpcaoIncompatibleException(idResposta, idOpcao);
         }
-        if(resposta.getQuesito().getTipoResposta() == "OBJETIVA_SIMPLES" && resposta.getOpcoesMarcadas().isEmpty()){
+        if(resposta.getQuesito().getTipoResposta().equals("OBJETIVA_SIMPLES") && resposta.getOpcoesMarcadas().isEmpty()){
             resposta.getOpcoesMarcadas().add(opcao);
-        } else if(resposta.getQuesito().getTipoResposta() == "OBJETIVA_MULTIPLA"){
+        } else if(resposta.getQuesito().getTipoResposta().equals("OBJETIVA_MULTIPLA")){
             if(resposta.getOpcoesMarcadas().contains(opcao)){
                 throw new OpcaoMarcadaAlreadyInRespostaException(idResposta, idOpcao);
             }else{
@@ -88,8 +88,8 @@ public class RespostaService {
         Resposta resposta = this.getById(idResposta);
         List<Opcao> opcoes = opcaoService.getAllByIds(idsOpcoes);
 
-        if(resposta.getQuesito().getTipoResposta() != "OBJETIVA_SIMPLES" && 
-            resposta.getQuesito().getTipoResposta() != "OBJETIVA_MULTIPLA"){
+        if(!resposta.getQuesito().getTipoResposta().equals("OBJETIVA_SIMPLES") && 
+            !resposta.getQuesito().getTipoResposta().equals("OBJETIVA_MULTIPLA")){
             throw new RespostaFullOfOpcaoException(idResposta);
         } 
 
